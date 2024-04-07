@@ -1,6 +1,7 @@
 package io.github.tsukook.cozycafes;
 
 import com.mojang.logging.LogUtils;
+import io.github.tsukook.cozycafes.items.Moditems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -65,6 +66,8 @@ public class cozycafes
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        Moditems.register(modEventBus);
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -80,6 +83,7 @@ public class cozycafes
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -103,6 +107,9 @@ public class cozycafes
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
             event.accept(EXAMPLE_BLOCK_ITEM);
+
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
+            event.accept(Moditems.COFFEE);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
