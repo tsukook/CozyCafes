@@ -11,7 +11,9 @@ public class Moditems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, cozycafes.MODID);
 
-            public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee_grounds",() ->new Item(new Item.Properties()));
+            public static final RegistryObject<Item> GCOFFEE = ITEMS.register("coffee_grounds",() ->new Item(new Item.Properties()));
+            public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee_beans",() ->new Item(new Item.Properties()));
+
 
             public static void  register(IEventBus eventBus){
         ITEMS.register(eventBus);
