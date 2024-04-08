@@ -1,0 +1,25 @@
+package io.github.tsukook.cozycafes.blocks.custom;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+
+
+public class CoffeeBushBlock extends BushBlock {
+        public final int MAX_AGE = 1;
+        public static final IntegerProperty AGE = BlockStateProperties.AGE_1;
+
+        public CoffeeBushBlock(Properties pProperties) {
+            super(pProperties);
+        }
+
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+    pBuilder.add(AGE);
+        }
+}
+

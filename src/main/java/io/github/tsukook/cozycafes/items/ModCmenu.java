@@ -18,6 +18,8 @@ public class ModCmenu {
             .displayItems((pParameters, pOutput) -> {
                 pOutput.accept(Moditems.COFFEE.get());
                 pOutput.accept(Moditems.GCOFFEE.get());
+                pOutput.accept(Moditems.COFFEE_BUSH.get());
+
             }).build());
 
 
