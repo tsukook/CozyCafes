@@ -16,7 +16,6 @@ public class Moditems {
             public static final RegistryObject<Item> GCOFFEE = ITEMS.register("coffee_grounds",() ->new Item(new Item.Properties()));
             public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee_beans",() ->new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> COFFEE_BUSH = ITEMS.register("coffee_bush",() ->new ItemNameBlockItem(Modblocks.COFFEE_BUSH.get(),(new Item.Properties())));
 
 
 

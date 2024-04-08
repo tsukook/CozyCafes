@@ -1,5 +1,6 @@
 package io.github.tsukook.cozycafes.items;
 
+import io.github.tsukook.cozycafes.blocks.custom.Modblocks;
 import io.github.tsukook.cozycafes.cozycafes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -18,7 +19,7 @@ public class ModCmenu {
             .displayItems((pParameters, pOutput) -> {
                 pOutput.accept(Moditems.COFFEE.get());
                 pOutput.accept(Moditems.GCOFFEE.get());
-                pOutput.accept(Moditems.COFFEE_BUSH.get());
+                pOutput.accept(Modblocks.COFFEE_BUSH.get());
 
             }).build());
 
