@@ -24,7 +24,7 @@ public class Modblocks {
     //Blocks from now on, i hate modprep ;3c
 
     public static final RegistryObject<Block> COFFEE_BUSH = registerBlocks("coffee_bush",
-            () -> new CoffeeBushBlock(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).noOcclusion().noCollission()));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).noOcclusion().noCollission()));
 
 
 
