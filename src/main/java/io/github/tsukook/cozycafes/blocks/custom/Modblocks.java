@@ -24,26 +24,24 @@ public class Modblocks {
     //Blocks from now on, i hate modprep ;3c
 
     public static final RegistryObject<Block> COFFEE_BUSH = registerBlocks("coffee_bush",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).noOcclusion().noCollission()));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).noOcclusion().noCollission().instabreak()));
 
     public static final RegistryObject<Block> COLD_BREWER = registerBlocks("cold_brewer",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS).noOcclusion()));
 
 
-
-
-    private static <T extends  Block>RegistryObject<T> registerBlocks(String name, Supplier<T> block) {
+    private static <T extends Block> RegistryObject<T> registerBlocks(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);
         return toReturn;
 
     }
 
-private static <T extends Block>RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block){
-return Moditems.ITEMS.register(name,() -> new BlockItem(block.get(), new Item.Properties()));
-}
+    private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
+        return Moditems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
 
     public static void register(IEventBus eventbus) {
-    BLOCKS.register(eventbus);
+        BLOCKS.register(eventbus);
     }
 }

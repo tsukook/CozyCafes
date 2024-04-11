@@ -34,21 +34,14 @@ import io.github.tsukook.cozycafes.items.ModCmenu;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(cozycafes.MODID)
-public class cozycafes
-{
+public class cozycafes {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "cozycafes";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
 
-
-
-
-
-
-    public cozycafes()
-    {
+    public cozycafes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Moditems.register(modEventBus);
         Modblocks.register(modEventBus);
@@ -62,8 +55,7 @@ public class cozycafes
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
+    private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
@@ -77,19 +69,16 @@ public class cozycafes
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
