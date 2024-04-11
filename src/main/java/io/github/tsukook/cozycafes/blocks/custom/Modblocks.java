@@ -26,6 +26,9 @@ public class Modblocks {
     public static final RegistryObject<Block> COFFEE_BUSH = registerBlocks("coffee_bush",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).noOcclusion().noCollission()));
 
+    public static final RegistryObject<Block> COLD_BREWER = registerBlocks("cold_brewer",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS).noOcclusion()));
+
 
 
 

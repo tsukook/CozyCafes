@@ -14,7 +14,7 @@ public class ModCmenu {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, cozycafes.MODID);
 
-    public static final RegistryObject<CreativeModeTab> MODCMENU_TAB = CREATIVE_MODE_TABS.register("creativetab", () -> CreativeModeTab.builder().icon(() -> Moditems.COFFEE.get().getDefaultInstance())
+    public static final RegistryObject<CreativeModeTab> MODCMENU_TAB = CREATIVE_MODE_TABS.register("creativetab", () -> CreativeModeTab.builder().icon(() -> Moditems.GCOFFEE.get().getDefaultInstance())
             .title(Component.translatable("creativetab.cozycafes"))
             .displayItems((pParameters, pOutput) -> {
                 pOutput.accept(Moditems.COFFEE.get());
