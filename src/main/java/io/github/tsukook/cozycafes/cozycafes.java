@@ -2,6 +2,7 @@ package io.github.tsukook.cozycafes;
 
 import com.mojang.logging.LogUtils;
 import io.github.tsukook.cozycafes.blocks.custom.Modblocks;
+import io.github.tsukook.cozycafes.effects.Effects;
 import io.github.tsukook.cozycafes.items.Moditems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -45,6 +46,7 @@ public class cozycafes {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Moditems.register(modEventBus);
         Modblocks.register(modEventBus);
+        Effects.register(modEventBus);
         ModCmenu.CREATIVE_MODE_TABS.register(modEventBus);
 
 
