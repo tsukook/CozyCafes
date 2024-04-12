@@ -1,8 +1,11 @@
 {
   //items
-"item.cozycafes.coffee_grounds": "Coffee grounds",
-"item.cozycafes.coffee_beans": "Coffee beans",
-"block.cozycafes.coffee_bush": "Coffee bush",
+  "item.cozycafes.coffee_grounds": "Coffee grounds",
+  "item.cozycafes.coffee_beans": "Coffee beans",
+  "block.cozycafes.coffee_bush": "Coffee bush",
+
+  //effects
+  "effect.cozycafes.caffeinated": "Caffeinated",
 
 
   //creative tab
