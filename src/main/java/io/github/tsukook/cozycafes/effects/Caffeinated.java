@@ -9,7 +9,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static io.github.tsukook.cozycafes.cozycafes.MODID;
+import static io.github.tsukook.cozycafes.CozyCafes.MODID;
 
 public class Caffeinated extends MobEffect {
     public Caffeinated() {
@@ -23,7 +23,7 @@ public class Caffeinated extends MobEffect {
         @SubscribeEvent
         public static Event.Result onPhantomSpawn(PlayerSpawnPhantomsEvent event) {
             var player = event.getEntity();
-            if (player.hasEffect(Effects.CAFFEINATED.get())) {
+            if (player.hasEffect(CCEffects.CAFFEINATED.get())) {
                 return Event.Result.DENY;
             }
             return Event.Result.DEFAULT;
