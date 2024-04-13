@@ -6,5 +6,5 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 
 public class ModFood {
-    public static final FoodProperties GROUNDCOFFEE = new FoodProperties.Builder().alwaysEat().fast().effect(new MobEffectInstance(Effects.CAFFEINATED.get(), 600, 1), 1f).build();
+    public static final FoodProperties GROUNDCOFFEE = new FoodProperties.Builder().alwaysEat().fast().effect(new MobEffectInstance(Effects.CAFFEINATED.get(), 600, 0), 1f).build();
 }
