@@ -1,4 +1,5 @@
 {
+	"render_type": "minecraft:cutout",
 	"ambientocclusion": true,
 	"texture_size": [42, 30],
 	"textures": {

@@ -5,11 +5,8 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import io.github.tsukook.cozycafes.blocks.CCBlocks;
 import io.github.tsukook.cozycafes.effects.CCEffects;
 import io.github.tsukook.cozycafes.items.CCItems;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -26,11 +23,5 @@ public class CozyCafes {
         CCItems.register();
         CCBlocks.register();
         CCEffects.register(modEventBus);
-
-        modEventBus.addListener(this::clientSetup);
-    }
-
-    private void clientSetup(FMLClientSetupEvent event){
-        ItemBlockRenderTypes.setRenderLayer(CCBlocks.COLD_BREWER.get(), RenderType.cutout());
     }
 }
