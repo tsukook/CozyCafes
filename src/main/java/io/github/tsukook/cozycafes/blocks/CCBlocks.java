@@ -1,10 +1,8 @@
 package io.github.tsukook.cozycafes.blocks;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import static io.github.tsukook.cozycafes.CozyCafes.REGISTRATE;
 
@@ -13,7 +11,7 @@ public class CCBlocks {
             .initialProperties(() -> Blocks.SWEET_BERRY_BUSH)
             .simpleItem()
             .register();
-    public static final BlockEntry<ColdBrewerBlock> COLD_BREWER = REGISTRATE.block("cold_brewer", ColdBrewerBlock::new)
+    public static final BlockEntry<Block> COLD_BREWER = REGISTRATE.block("cold_brewer", Block::new)
             .initialProperties(() -> Blocks.GLASS)
             .simpleItem()
             .register();
