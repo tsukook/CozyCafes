@@ -19,7 +19,7 @@ public class CozyCafes {
     public CozyCafes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         REGISTRATE.registerEventListeners(modEventBus);
-        REGISTRATE.defaultCreativeTab("CozyCafes", b -> b.icon(CCItems.COFFEE_GROUNDS::asStack)).register();
+        REGISTRATE.defaultCreativeTab("cozycafes", b -> b.icon(CCItems.COFFEE_GROUNDS::asStack)).register();
         CCItems.register();
         CCBlocks.register();
         CCEffects.register(modEventBus);
