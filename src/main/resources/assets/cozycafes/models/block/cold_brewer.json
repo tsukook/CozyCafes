@@ -3,7 +3,7 @@
 	"texture_size": [42, 30],
 	"textures": {
 		"0": "cozycafes:block/cold_brewer",
-		"particle": "glass"
+		"particle": "minecraft:block/glass"
 	},
 	"elements": [
 		{
