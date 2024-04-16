@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "cozycafes:item/coffee_beans"
+    "layer0": "cozycafes:item/blond_coffee_beans"
   }
 
 }

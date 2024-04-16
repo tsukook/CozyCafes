@@ -1,0 +1,14 @@
+{
+	"type": "create:milling",
+	"ingredients": [
+		{
+			"item": "cozycafes:dark_coffee_beans"
+		}
+	],
+	"processingTime": 250,
+	"results": [
+		{
+			"item": "cozycafes:dark_coffee_grounds"
+		}
+	]
+}
