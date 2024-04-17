@@ -1,14 +1,10 @@
+
 {
 	"type": "minecraft:smoking",
-	"ingredients": [
-		{
-			"item": "cozycafes:green_coffee_beans"
-		}
-	],
-	"processingTime": 100,
-	"results": [
-		{
-			"item": "cozycafes:blond_coffee_beans"
-		}
-	]
+	"ingredient": {"item": "cozycafes:green_coffee_beans"},
+	"result": {"item": "cozycafes:blond_coffee_beans"},
+	"experience": 0,
+	"cookingtime": 50
+
+
 }

@@ -1,14 +1,9 @@
 {
-	"type": "create:smoking",
-	"ingredients": [
-		{
-			"item": "cozycafes:medium_coffee_beans"
-		}
-	],
-	"processingTime": 250,
-	"results": [
-		{
-			"item": "cozycafes:dark_coffee_grounds"
-		}
-	]
+	"type": "minecraft:smoking",
+	"ingredient": {"item": "cozycafes:medium_coffee_beans"},
+	"result": {"item": "cozycafes:dark_coffee_beans"},
+	"experience": 0,
+	"cookingtime": 50
+
+
 }
