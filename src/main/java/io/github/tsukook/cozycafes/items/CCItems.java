@@ -15,36 +15,10 @@ public class CCItems {
 //    public static final RegistryObject<Item> GCOFFEE = ITEMS.register("coffee_grounds", () -> new Item(new Item.Properties().food(ModFood.GROUNDCOFFEE)));
 //    public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee_beans", () -> new Item(new Item.Properties()));
 
-    public static final ItemEntry<Item> DARK_COFFEE_GROUNDS = REGISTRATE.item("dark_coffee_grounds", Item::new)
-            .properties(properties -> properties
-                    .food(new FoodProperties.Builder()
-                            .alwaysEat()
-                            .fast()
-                            .effect(() -> new MobEffectInstance(CCEffects.CAFFEINATED.get(), 150, 0), 1.0F)
-                            .build()
-                    )
-            )
-            .register();
-    public static final ItemEntry<Item> MEDIUM_COFFEE_GROUNDS = REGISTRATE.item("medium_coffee_grounds", Item::new)
-            .properties(properties -> properties
-                    .food(new FoodProperties.Builder()
-                            .alwaysEat()
-                            .fast()
-                            .effect(() -> new MobEffectInstance(CCEffects.CAFFEINATED.get(), 300, 0), 1.0F)
-                            .build()
-                    )
-            )
-            .register();
-    public static final ItemEntry<Item> LIGHT_COFFEE_GROUNDS = REGISTRATE.item("blond_coffee_grounds", Item::new)
-            .properties(properties -> properties
-                    .food(new FoodProperties.Builder()
-                            .alwaysEat()
-                            .fast()
-                            .effect(() -> new MobEffectInstance(CCEffects.CAFFEINATED.get(), 600, 0), 1.0F)
-                            .build()
-                    )
-            )
-            .register();
+    public static final ItemEntry<Item> DARK_COFFEE_GROUNDS = coffeeGrounds("dark", 150);
+    public static final ItemEntry<Item> MEDIUM_COFFEE_GROUNDS = coffeeGrounds("medium", 300);
+    public static final ItemEntry<Item> LIGHT_COFFEE_GROUNDS = coffeeGrounds("blond", 600);
+
     public static final ItemEntry<Item> DARK_COFFEE_BEANS = REGISTRATE.item("dark_coffee_beans", Item::new)
             .register();
     public static final ItemEntry<Item> MEDIUM_COFFEE_BEANS = REGISTRATE.item("medium_coffee_beans", Item::new)
@@ -53,6 +27,19 @@ public class CCItems {
             .register();
     public static final ItemEntry<Item> GREEN_COFFEE_BEANS = REGISTRATE.item("green_coffee_beans", Item::new)
             .register();
+
+    private static ItemEntry<Item> coffeeGrounds(String name, int effectDuration) {
+        return REGISTRATE.item(name + "_coffee_grounds", Item::new)
+                .properties(properties -> properties
+                        .food(new FoodProperties.Builder()
+                                .alwaysEat()
+                                .fast()
+                                .effect(() -> new MobEffectInstance(CCEffects.CAFFEINATED.get(), effectDuration, 0), 1.0F)
+                                .build()
+                        )
+                )
+                .register();
+    }
 
     public static void register() {}
 
