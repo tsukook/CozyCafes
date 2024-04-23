@@ -2,8 +2,10 @@ package io.github.tsukook.cozycafes;
 
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import io.github.tsukook.cozycafes.blocks.CCBlockEntities;
 import io.github.tsukook.cozycafes.blocks.CCBlocks;
 import io.github.tsukook.cozycafes.effects.CCEffects;
+import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.items.CCItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -23,5 +25,7 @@ public class CozyCafes {
         CCItems.register();
         CCBlocks.register();
         CCEffects.register(modEventBus);
+        CCBlockEntities.register();
+        CCFluids.register();
     }
 }
