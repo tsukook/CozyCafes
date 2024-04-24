@@ -46,7 +46,7 @@ public class ColdBrewerBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
         //return level.isClientSide() ? null : (level1, blockPos, blockState1, blockEntity) -> ((ColdBrewerBlockEntity) blockEntity).brewTick(level1, blockPos, blockState1, blockEntity);
-        return (level1, blockPos, blockState1, blockEntity) -> ((ColdBrewerBlockEntity) blockEntity).brewTick(level1, blockPos, blockState1, blockEntity);
+        return level.isClientSide() ? null : (level1, blockPos, blockState1, blockEntity) -> ((ColdBrewerBlockEntity) blockEntity).brewTick(level1, blockPos, blockState1, blockEntity);
     }
 
     @Override

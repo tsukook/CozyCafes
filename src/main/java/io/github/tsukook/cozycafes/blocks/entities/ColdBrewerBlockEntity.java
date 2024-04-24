@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 public class ColdBrewerBlockEntity extends BlockEntity {
     private final int TIME = 100;
     private int progress = TIME;
-    private FluidTank fluidTank = new FluidTank(15);
+    private FluidTank fluidTank = new FluidTank(1000);
     private ItemStack brewingItem = new ItemStack(Items.AIR, 1);
 
     public ColdBrewerBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
@@ -33,6 +34,10 @@ public class ColdBrewerBlockEntity extends BlockEntity {
 
     public static boolean isBrewable(ItemStack itemStack) {
         return itemStack.is(CCItems.LIGHT_COFFEE_GROUNDS.get()) || itemStack.is(CCItems.MEDIUM_COFFEE_GROUNDS.get()) || itemStack.is(CCItems.DARK_COFFEE_GROUNDS.get());
+    }
+
+    private void update() {
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     public void brewTick(Level level, BlockPos blockPos, BlockState blockState, BlockEntity blockEntity) {
@@ -46,9 +51,10 @@ public class ColdBrewerBlockEntity extends BlockEntity {
                     setFluid(new FluidStack(CCFluids.DARK_ROAST_COLD_BREW.get().getSource(), 1000));
                 }
                 setItem(ItemStack.EMPTY);
-
+                update();
             } else if (isBrewable(brewingItem)) {
                 progress--;
+                update();
             }
         }
     }
@@ -62,6 +68,7 @@ public class ColdBrewerBlockEntity extends BlockEntity {
 
     public void setFluid(FluidStack fluidStack) {
         fluidTank.setFluid(fluidStack);
+        update();
     }
 
     public FluidTank getFluid() {
@@ -70,6 +77,7 @@ public class ColdBrewerBlockEntity extends BlockEntity {
 
     public void setItem(ItemStack item) {
         brewingItem = item;
+        update();
     }
 
     public boolean hasItem() {
