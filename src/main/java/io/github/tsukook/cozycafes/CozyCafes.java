@@ -7,6 +7,7 @@ import io.github.tsukook.cozycafes.blocks.CCBlocks;
 import io.github.tsukook.cozycafes.effects.CCEffects;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.items.CCItems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -27,5 +28,9 @@ public class CozyCafes {
         CCEffects.register(modEventBus);
         CCBlockEntities.register();
         CCFluids.register();
+    }
+
+    public static ResourceLocation getResource(String name) {
+        return new ResourceLocation(MODID, name);
     }
 }
