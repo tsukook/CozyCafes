@@ -45,12 +45,14 @@ public class ColdBrewerBlock extends BaseEntityBlock {
             boolean success = false;
             if (coldBrewerBlockEntity.getFluid().isEmpty() && itemStack.is(Items.WATER_BUCKET)) {
                 coldBrewerBlockEntity.setFluid(new FluidStack(Fluids.WATER, 1000));
-                player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
+                if (!player.isCreative())
+                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
                 success = true;
             }
             if (!coldBrewerBlockEntity.hasItem() && ColdBrewerBlockEntity.isBrewable(itemStack)){
                 coldBrewerBlockEntity.setItem(itemStack.copyWithCount(1));
-                itemStack.setCount(itemStack.getCount()-1);
+                if (!player.isCreative())
+                    itemStack.setCount(itemStack.getCount()-1);
                 success = true;
             }
             return success ? InteractionResult.SUCCESS : InteractionResult.FAIL;
