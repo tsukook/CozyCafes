@@ -51,7 +51,6 @@ public class ColdBrewerBlockEntity extends BlockEntity {
                     setFluid(new FluidStack(CCFluids.DARK_ROAST_COLD_BREW.get().getSource(), 1000));
                 }
                 setItem(ItemStack.EMPTY);
-                update();
             } else if (isBrewable(brewingItem)) {
                 progress--;
                 update();
@@ -100,7 +99,7 @@ public class ColdBrewerBlockEntity extends BlockEntity {
     public void load(CompoundTag nbt) {
         super.load(nbt);
         progress = nbt.getInt("progress");
-        brewingItem.deserializeNBT(nbt);
+        brewingItem.deserializeNBT(nbt.getCompound("item"));
         fluidTank.readFromNBT(nbt.getCompound("fluid"));
     }
 

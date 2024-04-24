@@ -52,7 +52,7 @@ public class ColdBrewerBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
-        if (level.getBlockEntity(blockPos) instanceof ColdBrewerBlockEntity coldBrewerBlockEntity) {
+        if (!level.isClientSide() && level.getBlockEntity(blockPos) instanceof ColdBrewerBlockEntity coldBrewerBlockEntity) {
             boolean success = false;
             if (coldBrewerBlockEntity.getFluid().isEmpty() && itemStack.is(Items.WATER_BUCKET)) {
                 coldBrewerBlockEntity.setFluid(new FluidStack(Fluids.WATER, 1000));
