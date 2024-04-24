@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "cozycafes:block/cold_brewer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cozycafes:block/cold_brewer"
+    },
+    "facing=south": {
+      "model": "cozycafes:block/cold_brewer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cozycafes:block/cold_brewer",
+      "y": 270
+    }
+  }
+}
