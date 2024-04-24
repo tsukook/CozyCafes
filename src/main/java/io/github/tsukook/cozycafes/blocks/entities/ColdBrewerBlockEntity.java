@@ -76,6 +76,10 @@ public class ColdBrewerBlockEntity extends BlockEntity {
         return !brewingItem.is(Items.AIR);
     }
 
+    public ItemStack getItem(ItemStack item) {
+        return brewingItem;
+    }
+
     @Override
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
