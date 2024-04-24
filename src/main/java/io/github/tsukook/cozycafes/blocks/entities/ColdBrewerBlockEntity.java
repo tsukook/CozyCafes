@@ -76,7 +76,7 @@ public class ColdBrewerBlockEntity extends BlockEntity {
         return !brewingItem.is(Items.AIR);
     }
 
-    public ItemStack getItem(ItemStack item) {
+    public ItemStack getItem() {
         return brewingItem;
     }
 
