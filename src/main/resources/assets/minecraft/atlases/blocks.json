@@ -1,0 +1,28 @@
+{
+  "sources": [
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/blond_roast_cold_brew_flow"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/medium_roast_cold_brew_flow"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/dark_roast_cold_brew_flow"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/blond_roast_cold_brew_still"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/medium_roast_cold_brew_still"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/dark_roast_cold_brew_still"
+    }
+  ]
+}
