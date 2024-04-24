@@ -1,5 +1,6 @@
 package io.github.tsukook.cozycafes.blocks;
 
+import com.simibubi.create.foundation.data.BlockStateGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.Blocks;
 
@@ -14,7 +15,8 @@ public class CCBlocks {
     public static final BlockEntry<ColdBrewerBlock> COLD_BREWER = REGISTRATE.block("cold_brewer", ColdBrewerBlock::new)
             .initialProperties(() -> Blocks.GLASS)
             .lang("Cold Brewer")
-            .simpleItem()
+            .blockstate(BlockStateGen.horizontalBlockProvider(false))
+            .item().build()
             .register();
 
     public static void register() {}
