@@ -66,7 +66,7 @@ public class ColdBrewerBlock extends BaseEntityBlock {
                     itemStack.setCount(itemStack.getCount()-1);
                 success = true;
             }
-            return success ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+            return success ? InteractionResult.CONSUME : InteractionResult.FAIL;
         }
         return InteractionResult.PASS;
     }
