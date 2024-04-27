@@ -52,23 +52,26 @@ public class ColdBrewerBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
-        if (!level.isClientSide() && level.getBlockEntity(blockPos) instanceof ColdBrewerBlockEntity coldBrewerBlockEntity) {
-            boolean success = false;
+        boolean success = false;
+        if (level.getBlockEntity(blockPos) instanceof ColdBrewerBlockEntity coldBrewerBlockEntity) {
             if (coldBrewerBlockEntity.getFluid().isEmpty() && itemStack.is(Items.WATER_BUCKET)) {
-                coldBrewerBlockEntity.setFluid(new FluidStack(Fluids.WATER, 1000));
-                if (!player.isCreative())
-                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
                 success = true;
+                if (!level.isClientSide()) {
+                    coldBrewerBlockEntity.setFluid(new FluidStack(Fluids.WATER, 1000));
+                    if (!player.isCreative())
+                        player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
+                }
             }
             if (!coldBrewerBlockEntity.hasItem() && ColdBrewerBlockEntity.isBrewable(itemStack)){
-                coldBrewerBlockEntity.setItem(itemStack.copyWithCount(1));
-                if (!player.isCreative())
-                    itemStack.setCount(itemStack.getCount()-1);
                 success = true;
+                if (!level.isClientSide()) {
+                    coldBrewerBlockEntity.setItem(itemStack.copyWithCount(1));
+                    if (!player.isCreative())
+                        itemStack.setCount(itemStack.getCount() - 1);
+                }
             }
-            return success ? InteractionResult.CONSUME : InteractionResult.FAIL;
         }
-        return InteractionResult.PASS;
+        return success ? (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME) : InteractionResult.PASS;
     }
 
     @Override
