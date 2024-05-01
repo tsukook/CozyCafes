@@ -1,7 +1,6 @@
 package io.github.tsukook.cozycafes.blocks.entities;
 
-import com.simibubi.create.foundation.utility.NBTHelper;
-import io.github.tsukook.cozycafes.blocks.CCBlockEntities;
+import io.github.tsukook.cozycafes.blocks.Muggable;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.items.CCItems;
 import net.minecraft.core.BlockPos;
@@ -16,13 +15,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import org.jetbrains.annotations.Nullable;
 
-public class ColdBrewerBlockEntity extends BlockEntity {
+public class ColdBrewerBlockEntity extends BlockEntity implements Muggable {
     private final int TIME = 100;
     private int progress = TIME;
     private FluidTank fluidTank = new FluidTank(1000);
@@ -113,5 +111,15 @@ public class ColdBrewerBlockEntity extends BlockEntity {
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public FluidStack takeFluid(int amount) {
+        return fluidTank.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+    }
+
+    @Override
+    public int getAmount() {
+        return fluidTank.getFluidAmount();
     }
 }
