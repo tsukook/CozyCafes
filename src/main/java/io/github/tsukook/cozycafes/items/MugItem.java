@@ -1,8 +1,11 @@
 package io.github.tsukook.cozycafes.items;
 
+import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
 import io.github.tsukook.cozycafes.blocks.Muggable;
+import io.github.tsukook.cozycafes.client.renderers.item.MugItemRenderer;
 import io.github.tsukook.cozycafes.effects.CCEffects;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +23,12 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.function.Consumer;
 
 public class MugItem extends Item {
     private static final int DRINK_DURATION = 32;
@@ -102,5 +110,11 @@ public class MugItem extends Item {
             return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
         }
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, pUsedHand);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(SimpleCustomRenderer.create(this, new MugItemRenderer()));
     }
 }
