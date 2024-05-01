@@ -24,7 +24,7 @@ public class ColdBrewerBlockEntityRenderer implements BlockEntityRenderer<ColdBr
             FluidStack fluidStack = coldBrewerBlockEntity.getFluid().getFluid();
 
             if (!fluidStack.isEmpty()) {
-                FluidRenderer.renderFluidBox(fluidStack, PIXEL*3+0.001f, 0.0001f, PIXEL*3+0.001f, 1-PIXEL*3-0.001f, 1-PIXEL*6, 1-PIXEL*3-0.001f, multiBufferSource, poseStack, packedLight, true);
+                FluidRenderer.renderFluidBox(fluidStack, PIXEL*3+0.001f, 0.0001f, PIXEL*3+0.001f, 1-PIXEL*3-0.001f, (1-PIXEL*6) * ((float) fluidStack.getAmount() / 1000f), 1-PIXEL*3-0.001f, multiBufferSource, poseStack, packedLight, true);
             }
         }
 
