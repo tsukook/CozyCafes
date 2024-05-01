@@ -42,15 +42,26 @@ public class MugItem extends BlockItem {
         ItemStack itemStack = pContext.getItemInHand();
         Player player = pContext.getPlayer();
 
+        boolean hasTag = true;
+        CompoundTag compoundTag = itemStack.getTag();
+        if (compoundTag == null || !compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
+            hasTag = false;
+        }
+
+
         if (player.isCrouching()) {
+            if (hasTag) {
+                CompoundTag blockEntityTag = new CompoundTag();
+                blockEntityTag.putString("FluidName", compoundTag.getString("FluidName"));
+                blockEntityTag.putInt("Amount", compoundTag.getInt("Amount"));
+                compoundTag.put("BlockEntityTag", blockEntityTag);
+            }
             return super.useOn(pContext);
         }
 
-        CompoundTag compoundTag = itemStack.getOrCreateTag();
-        if (compoundTag.contains("FluidName")) {
-            if (compoundTag.getInt("Amount") != 0) {
-                return InteractionResult.PASS;
-            }
+
+        if (hasTag) {
+            return InteractionResult.PASS;
         }
 
         if (blockEntity instanceof Muggable muggableBlockEntity) {
@@ -106,10 +117,6 @@ public class MugItem extends BlockItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        CompoundTag compoundTag = pPlayer.getItemInHand(pUsedHand).getTag();
-        if (compoundTag == null || !compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
-            return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
-        }
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, pUsedHand);
     }
 
