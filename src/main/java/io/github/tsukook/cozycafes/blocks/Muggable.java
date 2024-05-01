@@ -4,4 +4,5 @@ import net.minecraftforge.fluids.FluidStack;
 
 public interface Muggable {
     FluidStack takeFluid(int amount);
+    int getAmount();
 }
