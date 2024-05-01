@@ -1,6 +1,7 @@
 {
   "block.cozycafes.coffee_bush": "ɥsnᗺ ǝǝɟɟoƆ",
   "block.cozycafes.cold_brewer": "ɹǝʍǝɹᗺ pןoƆ",
+  "block.cozycafes.mug": "bnW",
   "item.cozycafes.blond_coffee_beans": "suɐǝᗺ ǝǝɟɟoƆ puoןᗺ",
   "item.cozycafes.blond_coffee_grounds": "spunoɹ⅁ ǝǝɟɟoƆ puoןᗺ",
   "item.cozycafes.dark_coffee_beans": "suɐǝᗺ ǝǝɟɟoƆ ʞɹɐᗡ",
@@ -8,6 +9,5 @@
   "item.cozycafes.green_coffee_beans": "suɐǝᗺ ǝǝɟɟoƆ uǝǝɹ⅁",
   "item.cozycafes.medium_coffee_beans": "suɐǝᗺ ǝǝɟɟoƆ ɯnıpǝW",
   "item.cozycafes.medium_coffee_grounds": "spunoɹ⅁ ǝǝɟɟoƆ ɯnıpǝW",
-  "item.cozycafes.mug": "bnW",
   "itemGroup.cozycafes.cozycafes": "sǝɟɐɔʎzoƆ"
 }

@@ -1,9 +1,10 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"texture_size": [17, 26],
 	"textures": {
-		"0": "cozycafes:item/mug",
-		"particle": "mug"
+		"0": "cozycafes:block/mug",
+		"particle": "cozycafes:block/mug"
 	},
 	"elements": [
 		{

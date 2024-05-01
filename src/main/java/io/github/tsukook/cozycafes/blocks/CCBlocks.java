@@ -2,6 +2,7 @@ package io.github.tsukook.cozycafes.blocks;
 
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import io.github.tsukook.cozycafes.items.MugItem;
 import net.minecraft.world.level.block.Blocks;
 
 import static io.github.tsukook.cozycafes.CozyCafes.REGISTRATE;
@@ -17,6 +18,12 @@ public class CCBlocks {
             .lang("Cold Brewer")
             .blockstate(BlockStateGen.horizontalBlockProvider(false))
             .item().build()
+            .register();
+    public static final BlockEntry<MugBlock> MUG_BLOCK = REGISTRATE.block("mug", MugBlock::new)
+            .initialProperties(() -> Blocks.FLOWER_POT)
+            .lang("Mug")
+            .blockstate(BlockStateGen.horizontalBlockProvider(false))
+            .item(MugItem::new).build()
             .register();
 
     public static void register() {}

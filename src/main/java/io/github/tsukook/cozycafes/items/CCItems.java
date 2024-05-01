@@ -28,10 +28,6 @@ public class CCItems {
     public static final ItemEntry<Item> GREEN_COFFEE_BEANS = REGISTRATE.item("green_coffee_beans", Item::new)
             .register();
 
-    public static final ItemEntry<MugItem> MUG = REGISTRATE.item("mug", MugItem::new)
-            .lang("Mug")
-            .register();
-
     private static ItemEntry<Item> coffeeGrounds(String name, int effectDuration) {
         return REGISTRATE.item(name + "_coffee_grounds", Item::new)
                 .properties(properties -> properties
