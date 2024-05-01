@@ -4,8 +4,6 @@ import com.simibubi.create.content.fluids.VirtualFluid;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.FluidEntry;
 import io.github.tsukook.cozycafes.CozyCafes;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import static io.github.tsukook.cozycafes.CozyCafes.REGISTRATE;
 
