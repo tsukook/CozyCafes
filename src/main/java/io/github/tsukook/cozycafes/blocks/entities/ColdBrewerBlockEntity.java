@@ -41,6 +41,7 @@ public class ColdBrewerBlockEntity extends BlockEntity implements Muggable {
     public void brewTick(Level level, BlockPos blockPos, BlockState blockState, BlockEntity blockEntity) {
         if (hasWater()) {
             if (progress <= 0) {
+                progress = TIME;
                 if (brewingItem.is(CCItems.LIGHT_COFFEE_GROUNDS.get())) {
                     setFluid(new FluidStack(CCFluids.BLOND_ROAST_COLD_BREW.get().getSource(), 1000));
                 } else if (brewingItem.is(CCItems.MEDIUM_COFFEE_GROUNDS.get())) {
