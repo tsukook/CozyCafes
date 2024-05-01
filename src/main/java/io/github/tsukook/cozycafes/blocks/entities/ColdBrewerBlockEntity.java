@@ -116,7 +116,9 @@ public class ColdBrewerBlockEntity extends BlockEntity implements Muggable {
 
     @Override
     public FluidStack takeFluid(int amount) {
-        return fluidTank.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+        FluidStack returnStack = fluidTank.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+        update();
+        return returnStack;
     }
 
     @Override
