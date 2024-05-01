@@ -17,6 +17,10 @@ public class MugBlockEntity extends BlockEntity {
         super(pType, pPos, pBlockState);
     }
 
+    public FluidStack getFluid() {
+        return fluidStack;
+    }
+
     @Override
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
