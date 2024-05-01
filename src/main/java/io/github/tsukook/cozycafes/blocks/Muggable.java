@@ -1,7 +1,7 @@
 package io.github.tsukook.cozycafes.blocks;
 
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.fluids.FluidStack;
 
 public interface Muggable {
-    FluidTank takeFluid(int amount);
+    FluidStack takeFluid(int amount);
 }
