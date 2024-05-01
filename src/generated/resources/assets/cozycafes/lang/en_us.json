@@ -1,6 +1,7 @@
 {
   "block.cozycafes.coffee_bush": "Coffee Bush",
   "block.cozycafes.cold_brewer": "Cold Brewer",
+
   "item.cozycafes.blond_coffee_beans": "Blond Coffee Beans",
   "item.cozycafes.blond_coffee_grounds": "Blond Coffee Grounds",
   "item.cozycafes.dark_coffee_beans": "Dark Coffee Beans",
@@ -9,5 +10,8 @@
   "item.cozycafes.medium_coffee_beans": "Medium Coffee Beans",
   "item.cozycafes.medium_coffee_grounds": "Medium Coffee Grounds",
   "item.cozycafes.mug": "Mug",
+
+  "effect.cozycafes.caffeinated": "Caffeinated",
+
   "itemGroup.cozycafes.cozycafes": "Cozycafes"
 }
