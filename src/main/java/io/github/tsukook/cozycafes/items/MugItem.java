@@ -43,10 +43,13 @@ public class MugItem extends BlockItem {
         Player player = pContext.getPlayer();
 
         boolean hasTag = true;
-        CompoundTag compoundTag = itemStack.getTag();
-        if (compoundTag == null || !compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
+        CompoundTag compoundTag = itemStack.getOrCreateTag();
+        if (!compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
             hasTag = false;
         }
+
+        if(compoundTag.contains("BlockEntityTag"))
+            compoundTag.remove("BlockEntityTag");
 
 
         if (player.isCrouching()) {
@@ -117,6 +120,11 @@ public class MugItem extends BlockItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+        CompoundTag compoundTag = itemStack.getTag();
+        if (compoundTag == null || !compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
+            return InteractionResultHolder.pass(itemStack);
+        }
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, pUsedHand);
     }
 
