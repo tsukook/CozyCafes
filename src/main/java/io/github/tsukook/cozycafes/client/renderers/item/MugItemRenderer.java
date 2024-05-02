@@ -23,7 +23,7 @@ public class MugItemRenderer extends CustomRenderedItemModelRenderer {
             FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag);
 
             if (!fluidStack.isEmpty()) {
-                FluidRenderer.renderFluidBox(fluidStack, -PIXEL, -PIXEL*7f, -PIXEL, PIXEL, -PIXEL*3.2f, PIXEL, multiBufferSource, poseStack, light, true);
+                FluidRenderer.renderFluidBox(fluidStack, -PIXEL, -PIXEL*7f, -PIXEL, PIXEL, -PIXEL*3.2f, PIXEL, multiBufferSource, poseStack, light, false);
             }
         }
     }
