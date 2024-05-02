@@ -4,7 +4,7 @@
 	"texture_size": [17, 26],
 	"textures": {
 		"0": "cozycafes:block/mug",
-		"particle": "cozycafes:block/mug"
+		"particle": "minecraft:block/quartz_block_top"
 	},
 	"elements": [
 		{
