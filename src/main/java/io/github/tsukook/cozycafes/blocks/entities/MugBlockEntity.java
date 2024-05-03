@@ -1,8 +1,10 @@
 package io.github.tsukook.cozycafes.blocks.entities;
 
 import io.github.tsukook.cozycafes.blocks.Muggable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -53,8 +55,11 @@ public class MugBlockEntity extends BlockEntity implements Muggable {
         if (amount > maxAmount) {
             amount = maxAmount;
         }
+
+        FluidStack returnStack = fluidStack.copy();
+        returnStack.setAmount(amount);
+
         fluidStack.shrink(amount);
-        FluidStack returnStack = new FluidStack(fluidStack.getFluid(), amount);
         this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
         return returnStack;
     }
