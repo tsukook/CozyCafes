@@ -77,7 +77,7 @@ public class ColdBrewerBlock extends BaseEntityBlock {
                 }
             }
         }
-        return success ? (level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME) : InteractionResult.PASS;
+        return success ? InteractionResult.sidedSuccess(level.isClientSide()) : InteractionResult.PASS;
     }
 
     @Override
