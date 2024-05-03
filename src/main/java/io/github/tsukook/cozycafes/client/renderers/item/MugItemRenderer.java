@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.fluid.FluidRenderer;
 import com.simibubi.create.foundation.item.render.CustomRenderedItemModel;
 import com.simibubi.create.foundation.item.render.CustomRenderedItemModelRenderer;
 import com.simibubi.create.foundation.item.render.PartialItemModelRenderer;
+import io.github.tsukook.cozycafes.items.MugItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -23,7 +24,9 @@ public class MugItemRenderer extends CustomRenderedItemModelRenderer {
             FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag);
 
             if (!fluidStack.isEmpty()) {
-                FluidRenderer.renderFluidBox(fluidStack, -PIXEL, -PIXEL*7f, -PIXEL, PIXEL, -PIXEL*3.2f, PIXEL, multiBufferSource, poseStack, light, false);
+                float normalizedAmount = (float) fluidStack.getAmount() / MugItem.CAPACITY;
+                // Yay, magic numbers!
+                FluidRenderer.renderFluidBox(fluidStack, -PIXEL, -PIXEL*7f, -PIXEL, PIXEL, PIXEL*(-7f + (-3.2f + 7f) * normalizedAmount), PIXEL, multiBufferSource, poseStack, light, false);
             }
         }
     }
