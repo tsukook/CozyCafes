@@ -23,7 +23,8 @@ public class CCBlocks {
             .initialProperties(() -> Blocks.FLOWER_POT)
             .lang("Mug")
             .blockstate(BlockStateGen.horizontalBlockProvider(false))
-            .item(MugItem::new).build()
+            .item(MugItem::new).properties(properties -> properties.stacksTo(1))
+            .build()
             .register();
 
     public static void register() {}
