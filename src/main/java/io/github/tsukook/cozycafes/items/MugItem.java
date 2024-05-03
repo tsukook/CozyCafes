@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 
 public class MugItem extends BlockItem {
     private static final int DRINK_DURATION = 32;
-    private static final int CAPACITY = 250;
+    public static final int CAPACITY = 250;
 
     public MugItem(Block block, Properties pProperties) {
         super(block, pProperties);
