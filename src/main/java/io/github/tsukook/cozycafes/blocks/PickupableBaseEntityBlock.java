@@ -19,8 +19,8 @@ public abstract class PickupableBaseEntityBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
-        if (itemStack.isEmpty()) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+        BlockEntity blockEntity = level.getBlockEntity(blockPos);
+        if (itemStack.isEmpty() && blockEntity != null) {
 
             ItemStack blockItem = new ItemStack(this.asItem(),1);
             blockItem.setTag(blockEntity.getUpdateTag());
