@@ -26,7 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 
-public class MugItem extends BlockItem {
+public class MugItem extends PickupableBlockItem {
     private static final int DRINK_DURATION = 32;
     public static final int CAPACITY = 250;
 
@@ -35,37 +35,13 @@ public class MugItem extends BlockItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext pContext) {
-        Level level = pContext.getLevel();
-        BlockPos blockPos = pContext.getClickedPos();
+    public InteractionResult useOnBlock(UseOnContext useOnContext) {
+        Level level = useOnContext.getLevel();
+        BlockPos blockPos = useOnContext.getClickedPos();
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
-        ItemStack itemStack = pContext.getItemInHand();
-        Player player = pContext.getPlayer();
+        ItemStack itemStack = useOnContext.getItemInHand();
 
-        boolean hasTag = true;
         CompoundTag compoundTag = itemStack.getOrCreateTag();
-        if (!compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
-            hasTag = false;
-        }
-
-        if(compoundTag.contains("BlockEntityTag"))
-            compoundTag.remove("BlockEntityTag");
-
-
-        if (player.isCrouching()) {
-            if (hasTag) {
-                CompoundTag blockEntityTag = new CompoundTag();
-                blockEntityTag.putString("FluidName", compoundTag.getString("FluidName"));
-                blockEntityTag.putInt("Amount", compoundTag.getInt("Amount"));
-                compoundTag.put("BlockEntityTag", blockEntityTag);
-            }
-            return super.useOn(pContext);
-        }
-
-
-        if (hasTag) {
-            return InteractionResult.PASS;
-        }
 
         if (blockEntity instanceof Muggable muggableBlockEntity) {
             if (muggableBlockEntity.getAmount() >= CAPACITY) {
