@@ -1,10 +1,12 @@
 package io.github.tsukook.cozycafes.blocks.entities;
 
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import io.github.tsukook.cozycafes.blocks.Muggable;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.items.CCItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -20,7 +22,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
-public class ColdBrewerBlockEntity extends BlockEntity implements Muggable {
+import java.util.List;
+
+public class ColdBrewerBlockEntity extends BlockEntity implements Muggable, IHaveGoggleInformation {
     private final int TIME = 100;
     private int progress = TIME;
     private FluidTank fluidTank = new FluidTank(1000);
@@ -124,5 +128,12 @@ public class ColdBrewerBlockEntity extends BlockEntity implements Muggable {
     @Override
     public int getAmount() {
         return fluidTank.getFluidAmount();
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        tooltip.add((Component.literal(spacing + "AAAAA FUCK IT COLDS HELP ME")));
+        tooltip.add((Component.literal(spacing + "AAAAAAA GOD IS FUCKING DRAD")));
+        return true;
     }
 }
