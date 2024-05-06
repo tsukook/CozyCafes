@@ -23,6 +23,14 @@
     {
       "type": "single",
       "resource": "cozycafes:fluid/dark_roast_cold_brew_still"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/syrup_flow"
+    },
+    {
+      "type": "single",
+      "resource": "cozycafes:fluid/syrup_still"
     }
   ]
 }
