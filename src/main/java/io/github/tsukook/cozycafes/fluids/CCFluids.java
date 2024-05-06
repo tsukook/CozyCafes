@@ -15,5 +15,8 @@ public class CCFluids {
     public static final FluidEntry<VirtualFluid> DARK_ROAST_COLD_BREW = REGISTRATE.virtualFluid("dark_roast_cold_brew", CozyCafes.getResource("fluid/dark_roast_cold_brew_still"), CozyCafes.getResource("fluid/dark_roast_cold_brew_flow"), CreateRegistrate::defaultFluidType, VirtualFluid::new)
             .register();
 
+    public static final FluidEntry<SyrupFluid> SYRUP = REGISTRATE.virtualFluid("syrup", CozyCafes.getResource("fluid/syrup_still"), CozyCafes.getResource("fluid/syrup_flow"), SyrupFluid.SyrupFluidType::new, SyrupFluid::new)
+            .register();
+
     public static void register() {}
 }
