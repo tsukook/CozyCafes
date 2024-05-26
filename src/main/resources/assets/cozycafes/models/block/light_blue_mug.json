@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"1": "cozycafes:block/mug",
+		"1": "cozycafes:block/light_blue_mug",
 		"particle": "block/quartz_block_top"
 	},
 	"elements": [
