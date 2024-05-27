@@ -43,7 +43,7 @@ public class MugItem extends PickupableBlockItem {
 
         CompoundTag compoundTag = itemStack.getOrCreateTag();
 
-        if (blockEntity instanceof Muggable muggableBlockEntity) {
+        if (FluidStack.loadFluidStackFromNBT(itemStack.getTag()).isEmpty() && blockEntity instanceof Muggable muggableBlockEntity) {
             if (muggableBlockEntity.getAmount() >= CAPACITY) {
                 FluidStack fluidStack = muggableBlockEntity.takeFluid(CAPACITY);
                 fluidStack.writeToNBT(compoundTag);
