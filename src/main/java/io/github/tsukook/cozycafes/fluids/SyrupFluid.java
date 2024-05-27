@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.FluidStack;
@@ -55,10 +54,11 @@ public class SyrupFluid extends VirtualFluid {
             int[] color = {0, 0, 0};
             int[] numberOfColors = {0};
             listTag.forEach(tag -> {
-                int fullColor = PotionUtils.getColor(PotionUtils.getPotion((CompoundTag) tag));
-                color[0] = fullColor & 0xff0000 >> 16;
-                color[1] = fullColor & 0x00ff00 >> 8;
-                color[2] = fullColor & 0x0000ff;
+                MobEffectInstance mobEffectInstance = MobEffectInstance.load((CompoundTag) tag);
+                int fullColor = mobEffectInstance.getEffect().getColor();
+                color[0] = (fullColor & 0xff0000) >> 16;
+                color[1] = (fullColor & 0x00ff00) >> 8;
+                color[2] = (fullColor & 0x0000ff);
                 numberOfColors[0] += 1;
             });
 
