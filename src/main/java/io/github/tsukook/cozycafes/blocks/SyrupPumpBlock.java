@@ -1,5 +1,6 @@
 package io.github.tsukook.cozycafes.blocks;
 
+import io.github.tsukook.cozycafes.blocks.entities.SyrupPumpBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
@@ -38,7 +39,7 @@ public class SyrupPumpBlock extends PickupableBaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return null;
+        return new SyrupPumpBlockEntity(CCBlockEntities.SYRUP_PUMP_BLOCK_ENTITY.get(), blockPos, blockState);
     }
 
     @Override
