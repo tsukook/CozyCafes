@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "cozycafes:block/takeaway_mug",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cozycafes:block/takeaway_mug"
+    },
+    "facing=south": {
+      "model": "cozycafes:block/takeaway_mug",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cozycafes:block/takeaway_mug",
+      "y": 270
+    }
+  }
+}
