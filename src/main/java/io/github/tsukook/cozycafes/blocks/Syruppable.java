@@ -1,6 +1,8 @@
 package io.github.tsukook.cozycafes.blocks;
 
+import net.minecraft.nbt.CompoundTag;
+
 // naem
 public interface Syruppable {
-    void addSyrup();
+    boolean addSyrup(CompoundTag compoundTag);
 }
