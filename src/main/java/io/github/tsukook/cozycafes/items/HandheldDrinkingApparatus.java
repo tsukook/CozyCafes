@@ -78,7 +78,7 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
             if (duration != 0) {
                 livingEntity.addEffect(new MobEffectInstance(CCEffects.CAFFEINATED.get(), duration, 0));
                 CompoundTag fluidTag = fluidStack.getTag();
-                if (!fluidTag.isEmpty() && fluidTag.contains("Syrup")) {
+                if (fluidTag != null && !fluidTag.isEmpty() && fluidTag.contains("Syrup")) {
                     ListTag listTag = ((CompoundTag) fluidStack.getTag().get("Syrup")).getList("PotionEffects", ListTag.TAG_COMPOUND);
                     listTag.forEach(tag -> {
                         MobEffectInstance mobEffectInstance = MobEffectInstance.load((CompoundTag) tag);
