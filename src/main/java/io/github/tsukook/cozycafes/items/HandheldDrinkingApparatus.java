@@ -41,7 +41,9 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
         if (FluidStack.loadFluidStackFromNBT(itemStack.getTag()).isEmpty() && blockEntity instanceof Muggable muggableBlockEntity) {
             if (muggableBlockEntity.getAmount() >= this.getCapacity()) {
                 FluidStack fluidStack = muggableBlockEntity.takeFluid(this.getCapacity());
-                fluidStack.writeToNBT(compoundTag);
+                Syrup syrup = new Syrup();
+                fluidStack.getOrCreateTag().put("Syrup", syrup.writeToNBT(new CompoundTag()));
+                compoundTag.put("Fluid", fluidStack.writeToNBT(new CompoundTag()));
 
                 return InteractionResult.sidedSuccess(level.isClientSide());
             }
@@ -60,17 +62,17 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
         CompoundTag compoundTag = itemStack.getTag();
 
         if (!level.isClientSide()) {
-            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag);
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag.getCompound("Fluid"));
             Fluid fluid = fluidStack.getFluid();
             int duration;
 
             // These are copied from the durations given by coffee grounds, these should probably be changed
             if (fluid.isSame(CCFluids.BLOND_ROAST_COLD_BREW.get())) {
-                duration = 600;
+                duration = 600*20;
             } else if (fluid.isSame(CCFluids.MEDIUM_ROAST_COLD_BREW.get())) {
-                duration = 300;
+                duration = 300*20;
             } else if (fluid.isSame(CCFluids.DARK_ROAST_COLD_BREW.get())) {
-                duration = 150;
+                duration = 150*20;
             } else {
                 duration = 0;
             }
@@ -88,7 +90,7 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
         }
 
         FluidStack fluidStack = FluidStack.EMPTY;
-        fluidStack.writeToNBT(compoundTag);
+        compoundTag.put("Fluid", fluidStack.writeToNBT(new CompoundTag()));
 
         return itemStack;
     }
@@ -97,7 +99,7 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
         CompoundTag compoundTag = itemStack.getTag();
-        if (compoundTag == null || !compoundTag.contains("FluidName") || compoundTag.getInt("Amount") == 0) {
+        if (compoundTag == null || !compoundTag.contains("Fluid")) {
             return InteractionResultHolder.pass(itemStack);
         }
         return ItemUtils.startUsingInstantly(level, player, interactionHand);

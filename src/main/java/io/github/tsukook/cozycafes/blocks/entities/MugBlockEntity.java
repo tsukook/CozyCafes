@@ -29,13 +29,17 @@ public class MugBlockEntity extends BlockEntity implements Muggable, Syruppable 
     @Override
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
-        fluidStack.writeToNBT(nbt);
+        if (!fluidStack.isEmpty()) {
+            fluidStack.getOrCreateTag().put("Syrup", syrup.writeToNBT(new CompoundTag()));
+            nbt.put("Fluid", fluidStack.writeToNBT(new CompoundTag()));
+        }
     }
 
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
-        fluidStack = FluidStack.loadFluidStackFromNBT(nbt);
+        fluidStack = FluidStack.loadFluidStackFromNBT(nbt.getCompound("Fluid"));
+        syrup = Syrup.readFromNBT(fluidStack.getTag().getCompound("Syrup"));
     }
 
     @Override
@@ -73,6 +77,7 @@ public class MugBlockEntity extends BlockEntity implements Muggable, Syruppable 
     @Override
     public boolean addSyrup(Syrup syrup) {
         this.syrup.getEffects().addAll(syrup.getEffects());
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
         return true;
     }
 

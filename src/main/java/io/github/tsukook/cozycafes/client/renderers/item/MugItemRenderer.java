@@ -21,7 +21,7 @@ public class MugItemRenderer extends CustomRenderedItemModelRenderer {
 
         CompoundTag compoundTag = itemStack.getTag();
         if (compoundTag != null) {
-            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag);
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag.getCompound("Fluid"));
 
             if (!fluidStack.isEmpty()) {
                 float normalizedAmount = (float) fluidStack.getAmount() / MugItem.CAPACITY;
