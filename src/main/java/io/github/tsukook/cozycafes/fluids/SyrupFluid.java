@@ -5,7 +5,6 @@ import com.simibubi.create.content.fluids.VirtualFluid;
 import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -13,8 +12,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class SyrupFluid extends VirtualFluid {
     public SyrupFluid(Properties properties) {

@@ -1,14 +1,11 @@
 package io.github.tsukook.cozycafes.folder;
 
-import com.simibubi.create.foundation.utility.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
 public class Syrup {
     private final ArrayList<MobEffectInstance> mobEffectInstances = new ArrayList<>();
 
