@@ -2,6 +2,7 @@ package io.github.tsukook.cozycafes.fluids;
 
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.content.fluids.VirtualFluid;
+import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,23 +22,17 @@ public class SyrupFluid extends VirtualFluid {
     }
 
     public static FluidStack addPotion(FluidStack fluidStack, MobEffectInstance effect) {
-        List<MobEffectInstance> effects = new ArrayList<>();
-        effects.add(effect);
-        return addPotion(fluidStack, effects);
-    }
-
-    public static FluidStack addPotion(FluidStack fluidStack, Collection<MobEffectInstance> effects) {
         CompoundTag compoundTag = fluidStack.getOrCreateTag();
-        ListTag listTag = new ListTag();
-        if (compoundTag.contains("PotionEffects")) {
-            listTag = compoundTag.getList("PotionEffects", ListTag.TAG_COMPOUND);
+        if (compoundTag.contains("Syrup")) {
+            Syrup syrup = Syrup.readFromNBT(fluidStack.getTag().getCompound("Syrup"));
+            syrup.addEffect(effect);
+            syrup.writeToNBT(compoundTag.getCompound("Syrup"));
+        } else {
+            Syrup syrup = new Syrup();
+            syrup.addEffect(effect);
+            syrup.writeToNBT(compoundTag.getCompound("Syrup"));
         }
 
-        for (MobEffectInstance effectInstance : effects) {
-            listTag.add(effectInstance.save(new CompoundTag()));
-        }
-
-        compoundTag.put("PotionEffects", listTag);
         return fluidStack;
     }
 
@@ -50,11 +45,11 @@ public class SyrupFluid extends VirtualFluid {
         @Override
         protected int getTintColor(FluidStack fluidStack) {
             CompoundTag compoundTag = fluidStack.getOrCreateTag();
-            ListTag listTag = compoundTag.getList("PotionEffects", ListTag.TAG_COMPOUND);
+            Syrup syrup = Syrup.readFromNBT(compoundTag);
+            ArrayList<MobEffectInstance> mobEffectInstances = syrup.getEffects();
             int[] color = {0, 0, 0};
             int[] numberOfColors = {0};
-            listTag.forEach(tag -> {
-                MobEffectInstance mobEffectInstance = MobEffectInstance.load((CompoundTag) tag);
+            mobEffectInstances.forEach(mobEffectInstance -> {
                 int fullColor = mobEffectInstance.getEffect().getColor();
                 color[0] = (fullColor & 0xff0000) >> 16;
                 color[1] = (fullColor & 0x00ff00) >> 8;
