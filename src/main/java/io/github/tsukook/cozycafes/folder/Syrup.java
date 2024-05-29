@@ -5,6 +5,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 public class Syrup {
     private final ArrayList<MobEffectInstance> mobEffectInstances = new ArrayList<>();
@@ -48,6 +49,10 @@ public class Syrup {
 
     public void addEffect(MobEffectInstance mobEffectInstance) {
         this.mobEffectInstances.add(mobEffectInstance);
+    }
+
+    public void addEffects(Collection<MobEffectInstance> mobEffectInstanceCollection) {
+        this.mobEffectInstances.addAll(mobEffectInstanceCollection);
     }
 
     public ArrayList<MobEffectInstance> getEffects() {
