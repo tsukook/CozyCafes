@@ -1,6 +1,7 @@
 package io.github.tsukook.cozycafes.items;
 
 import io.github.tsukook.cozycafes.blocks.Syruppable;
+import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,8 +12,11 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.fluids.FluidStack;
 
 public class SyrupPumpItem extends PickupableBlockItem {
+    public static final int MYSTICAL_POTION_CONSTANT = 50;
+
     public SyrupPumpItem(Block pBlock, Properties pProperties) {
         super(pBlock, pProperties);
     }
@@ -27,8 +31,10 @@ public class SyrupPumpItem extends PickupableBlockItem {
 
         CompoundTag compoundTag = itemStack.getTag();
 
-        if (compoundTag != null && compoundTag.contains("Syrup") && blockEntity instanceof Syruppable syruppableBlockEntity && !syruppableBlockEntity.hasSyrup()) {
-            if (syruppableBlockEntity.addSyrup(Syrup.readFromNBT(compoundTag.getCompound("Syrup")))) {
+        if (compoundTag != null && compoundTag.contains("Fluid") && blockEntity instanceof Syruppable syruppableBlockEntity && !syruppableBlockEntity.hasSyrup()) {
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag.getCompound("Fluid"));
+            if (fluidStack.getFluid().isSame(CCFluids.SYRUP.get()) && fluidStack.getAmount() >= 10 && syruppableBlockEntity.addSyrup(Syrup.readFromNBT(fluidStack.getTag().getCompound("Syrup")))) {
+                fluidStack.shrink(10);
                 return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
