@@ -40,6 +40,7 @@ public abstract class PickupableBlockItem extends BlockItem {
             if (hasTag) {
                 // Questionable
                 ItemStack newItemStack = itemStack.copy();
+                newItemStack.setTag(new CompoundTag());
                 CompoundTag newTag = new CompoundTag();
                 newTag.put("BlockEntityTag", compoundTag.copy());
                 newItemStack.setTag(newTag);
