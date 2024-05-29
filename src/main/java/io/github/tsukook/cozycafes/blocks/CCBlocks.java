@@ -27,6 +27,27 @@ public class CCBlocks {
             .item(MugItem::new).properties(properties -> properties.stacksTo(1))
             .build()
             .register();
+    public static final BlockEntry<MugBlock> LIGHT_BLUE_MUG_BLOCK = REGISTRATE.block("light_blue_mug", MugBlock::new)
+            .initialProperties(() -> Blocks.FLOWER_POT)
+            .lang("Light Blue Mug")
+            .blockstate(BlockStateGen.horizontalBlockProvider(false))
+            .item(MugItem::new).properties(properties -> properties.stacksTo(1))
+            .build()
+            .register();
+    public static final BlockEntry<MugBlock> TAKEAWAY_CUP_BLOCK = REGISTRATE.block("takeaway_mug", MugBlock::new)
+            .initialProperties(() -> Blocks.FLOWER_POT)
+            .lang("Takeaway Mug")
+            .blockstate(BlockStateGen.horizontalBlockProvider(false))
+            .item(MugItem::new).properties(properties -> properties.stacksTo(1))
+            .build()
+            .register();
+    public static final BlockEntry<MugBlock> LIME_MUG_BLOCK = REGISTRATE.block("lime_mug", MugBlock::new)
+            .initialProperties(() -> Blocks.FLOWER_POT)
+            .lang("Lime Mug")
+            .blockstate(BlockStateGen.horizontalBlockProvider(false))
+            .item(MugItem::new).properties(properties -> properties.stacksTo(1))
+            .build()
+            .register();
     public static final BlockEntry<SyrupPumpBlock> SYRUP_PUMP = REGISTRATE.block("syrup_pump", SyrupPumpBlock::new)
             .initialProperties(() -> Blocks.GLASS)
             .lang("Syrup Pump")
