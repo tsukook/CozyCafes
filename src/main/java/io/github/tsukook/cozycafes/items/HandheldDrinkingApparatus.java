@@ -3,9 +3,9 @@ package io.github.tsukook.cozycafes.items;
 import io.github.tsukook.cozycafes.blocks.Muggable;
 import io.github.tsukook.cozycafes.effects.CCEffects;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
+import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -78,10 +78,9 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
             if (duration != 0) {
                 livingEntity.addEffect(new MobEffectInstance(CCEffects.CAFFEINATED.get(), duration, 0));
                 CompoundTag fluidTag = fluidStack.getTag();
-                if (fluidTag != null && !fluidTag.isEmpty() && fluidTag.contains("Syrup")) {
-                    ListTag listTag = ((CompoundTag) fluidStack.getTag().get("Syrup")).getList("PotionEffects", ListTag.TAG_COMPOUND);
-                    listTag.forEach(tag -> {
-                        MobEffectInstance mobEffectInstance = MobEffectInstance.load((CompoundTag) tag);
+                if (fluidTag != null && fluidTag.contains("Syrup")) {
+                    Syrup syrup = Syrup.readFromNBT(fluidTag.getCompound("Syrup"));
+                    syrup.getEffects().forEach(mobEffectInstance -> {
                         livingEntity.addEffect(new MobEffectInstance(mobEffectInstance.getEffect(), duration, mobEffectInstance.getAmplifier()));
                     });
                 }
