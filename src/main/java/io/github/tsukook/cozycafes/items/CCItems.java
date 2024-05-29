@@ -41,6 +41,7 @@ public class CCItems {
                 .register();
     }
 
+    @SuppressWarnings("EmptyMethod")
     public static void register() {}
 
 }

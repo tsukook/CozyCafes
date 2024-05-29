@@ -56,5 +56,6 @@ public class CCBlocks {
             .build()
             .register();
 
+    @SuppressWarnings("EmptyMethod")
     public static void register() {}
 }

@@ -27,7 +27,7 @@ import java.util.List;
 public class ColdBrewerBlockEntity extends BlockEntity implements Muggable, IHaveGoggleInformation {
     private final int TIME = 100;
     private int progress = TIME;
-    private FluidTank fluidTank = new FluidTank(1000);
+    private final FluidTank fluidTank = new FluidTank(1000);
     private ItemStack brewingItem = new ItemStack(Items.AIR, 1);
 
     public ColdBrewerBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {

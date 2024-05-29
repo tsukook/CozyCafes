@@ -18,5 +18,6 @@ public class CCFluids {
     public static final FluidEntry<SyrupFluid> SYRUP = REGISTRATE.virtualFluid("syrup", CozyCafes.getResource("fluid/syrup_still"), CozyCafes.getResource("fluid/syrup_flow"), SyrupFluid.SyrupFluidType::new, SyrupFluid::new)
             .register();
 
+    @SuppressWarnings("EmptyMethod")
     public static void register() {}
 }

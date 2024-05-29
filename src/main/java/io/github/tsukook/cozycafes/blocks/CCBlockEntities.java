@@ -24,5 +24,6 @@ public class CCBlockEntities {
             .renderer(() -> SyrupPumpBlockEntityRenderer::new)
             .register();
 
+    @SuppressWarnings("EmptyMethod")
     public static void register() {}
 }
