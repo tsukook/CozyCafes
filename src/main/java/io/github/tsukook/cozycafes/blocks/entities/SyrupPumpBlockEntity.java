@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 import static io.github.tsukook.cozycafes.items.SyrupPumpItem.MYSTICAL_POTION_CONSTANT;
 
 public class SyrupPumpBlockEntity extends BlockEntity {
-    private final int CAPACITY = 250;
+    public static final int CAPACITY = 250;
     private FluidStack fluidStack = new FluidStack(CCFluids.SYRUP.get(), 0);
 
     public SyrupPumpBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
