@@ -2,7 +2,6 @@ package io.github.tsukook.cozycafes.items;
 
 import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
 import io.github.tsukook.cozycafes.blocks.Syruppable;
-import io.github.tsukook.cozycafes.client.renderers.item.MugItemRenderer;
 import io.github.tsukook.cozycafes.client.renderers.item.SyrupPumpItemRenderer;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.folder.Syrup;
