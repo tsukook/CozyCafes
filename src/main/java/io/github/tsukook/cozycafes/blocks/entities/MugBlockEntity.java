@@ -1,10 +1,10 @@
 package io.github.tsukook.cozycafes.blocks.entities;
 
 import io.github.tsukook.cozycafes.blocks.Muggable;
-import net.minecraft.client.Minecraft;
+import io.github.tsukook.cozycafes.blocks.Syruppable;
+import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -14,8 +14,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 
-public class MugBlockEntity extends BlockEntity implements Muggable {
+public class MugBlockEntity extends BlockEntity implements Muggable, Syruppable {
     private FluidStack fluidStack = FluidStack.EMPTY;
+    private Syrup syrup = new Syrup();
 
     public MugBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -67,5 +68,16 @@ public class MugBlockEntity extends BlockEntity implements Muggable {
     @Override
     public int getAmount() {
         return fluidStack.getAmount();
+    }
+
+    @Override
+    public boolean addSyrup(Syrup syrup) {
+        this.syrup.getEffects().addAll(syrup.getEffects());
+        return true;
+    }
+
+    @Override
+    public boolean hasSyrup() {
+        return this.syrup.hasEffects();
     }
 }
