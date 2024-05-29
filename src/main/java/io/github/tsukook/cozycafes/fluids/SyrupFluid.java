@@ -42,15 +42,15 @@ public class SyrupFluid extends VirtualFluid {
         @Override
         protected int getTintColor(FluidStack fluidStack) {
             CompoundTag compoundTag = fluidStack.getOrCreateTag();
-            Syrup syrup = Syrup.readFromNBT(compoundTag);
+            Syrup syrup = Syrup.readFromNBT(compoundTag.getCompound("Syrup"));
             ArrayList<MobEffectInstance> mobEffectInstances = syrup.getEffects();
             int[] color = {0, 0, 0};
             int[] numberOfColors = {0};
             mobEffectInstances.forEach(mobEffectInstance -> {
                 int fullColor = mobEffectInstance.getEffect().getColor();
-                color[0] = (fullColor & 0xff0000) >> 16;
-                color[1] = (fullColor & 0x00ff00) >> 8;
-                color[2] = (fullColor & 0x0000ff);
+                color[0] += (fullColor & 0xff0000) >> 16;
+                color[1] += (fullColor & 0x00ff00) >> 8;
+                color[2] += (fullColor & 0x0000ff);
                 numberOfColors[0] += 1;
             });
 
