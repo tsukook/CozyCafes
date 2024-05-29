@@ -1,6 +1,9 @@
 package io.github.tsukook.cozycafes.items;
 
+import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
 import io.github.tsukook.cozycafes.blocks.Syruppable;
+import io.github.tsukook.cozycafes.client.renderers.item.MugItemRenderer;
+import io.github.tsukook.cozycafes.client.renderers.item.SyrupPumpItemRenderer;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
 import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
@@ -12,7 +15,12 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.function.Consumer;
 
 public class SyrupPumpItem extends PickupableBlockItem {
     public static final int MYSTICAL_POTION_CONSTANT = 50;
@@ -40,5 +48,11 @@ public class SyrupPumpItem extends PickupableBlockItem {
         }
 
         return InteractionResult.PASS;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(SimpleCustomRenderer.create(this, new SyrupPumpItemRenderer()));
     }
 }
