@@ -36,6 +36,8 @@ public abstract class PickupableBlockItem extends BlockItem {
         }
 
         if (player.isCrouching()) {
+            InteractionResult interactionResult = InteractionResult.PASS;
+            UseOnContext context = useOnContext;
             if (hasTag) {
                 // Questionable
                 ItemStack newItemStack = itemStack.copy();
@@ -46,15 +48,13 @@ public abstract class PickupableBlockItem extends BlockItem {
 
                 BlockHitResult newHitResult = new BlockHitResult(useOnContext.getClickLocation(), useOnContext.getClickedFace(), blockPos, useOnContext.isInside());
 
-                UseOnContext newContext = new UseOnContext(level, player, useOnContext.getHand(), newItemStack, newHitResult);
-
-                InteractionResult interactionResult = super.useOn(newContext);
-                if (interactionResult.consumesAction()) {
-                    player.setItemInHand(useOnContext.getHand(), ItemStack.EMPTY);
-                    return interactionResult;
-                }
+                context = new UseOnContext(level, player, useOnContext.getHand(), newItemStack, newHitResult);
             }
-            return super.useOn(useOnContext);
+            interactionResult = super.useOn(context);
+            if (interactionResult.consumesAction()) {
+                player.setItemInHand(useOnContext.getHand(), ItemStack.EMPTY);
+                return interactionResult;
+            }
         }
 
         return this.useOnBlock(useOnContext);
