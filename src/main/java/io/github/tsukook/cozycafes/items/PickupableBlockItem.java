@@ -26,7 +26,6 @@ public abstract class PickupableBlockItem extends BlockItem {
     public InteractionResult useOn(UseOnContext useOnContext) {
         Level level = useOnContext.getLevel();
         BlockPos blockPos = useOnContext.getClickedPos();
-        BlockEntity blockEntity = level.getBlockEntity(blockPos);
         ItemStack itemStack = useOnContext.getItemInHand();
         Player player = useOnContext.getPlayer();
 
@@ -49,7 +48,11 @@ public abstract class PickupableBlockItem extends BlockItem {
 
                 UseOnContext newContext = new UseOnContext(level, player, useOnContext.getHand(), newItemStack, newHitResult);
 
-                return super.useOn(newContext);
+                InteractionResult interactionResult = super.useOn(newContext);
+                if (interactionResult.consumesAction()) {
+                    player.setItemInHand(useOnContext.getHand(), ItemStack.EMPTY);
+                    return interactionResult;
+                }
             }
             return super.useOn(useOnContext);
         }
