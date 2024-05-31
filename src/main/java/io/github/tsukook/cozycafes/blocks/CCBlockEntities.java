@@ -16,7 +16,7 @@ public class CCBlockEntities {
             .renderer(() -> ColdBrewerBlockEntityRenderer::new)
             .register();
     public static final BlockEntityEntry<MugBlockEntity> MUG_BLOCK_ENTITY = REGISTRATE.blockEntity("mug", MugBlockEntity::new)
-            .validBlocks(CCBlocks.MUG_BLOCK)
+            .validBlocks(CCBlocks.MUG_BLOCK, CCBlocks.LIME_MUG_BLOCK, CCBlocks.LIGHT_BLUE_MUG_BLOCK, CCBlocks.TAKEAWAY_CUP_BLOCK)
             .renderer(() -> MugBlockEntityRenderer::new)
             .register();
     public static final BlockEntityEntry<SyrupPumpBlockEntity> SYRUP_PUMP_BLOCK_ENTITY = REGISTRATE.blockEntity("syrup_pump", SyrupPumpBlockEntity::new)
