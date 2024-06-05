@@ -68,7 +68,7 @@ public class ColdBrewerBlock extends BaseEntityBlock {
                         player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
                 }
             }
-            if (!coldBrewerBlockEntity.hasItem() && ColdBrewerBlockEntity.isBrewable(itemStack)){
+            if (!coldBrewerBlockEntity.hasItem() && ColdBrewerBlockEntity.isBrewable(itemStack.getItem())){
                 success = true;
                 if (!level.isClientSide()) {
                     coldBrewerBlockEntity.setItem(itemStack.copyWithCount(1));

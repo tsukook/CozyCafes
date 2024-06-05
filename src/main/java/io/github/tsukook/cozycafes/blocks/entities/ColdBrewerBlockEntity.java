@@ -3,13 +3,15 @@ package io.github.tsukook.cozycafes.blocks.entities;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import io.github.tsukook.cozycafes.blocks.Muggable;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
-import io.github.tsukook.cozycafes.items.CCItems;
+import io.github.tsukook.cozycafes.fluids.CoffeeFluid;
+import io.github.tsukook.cozycafes.items.CoffeeGroundItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -34,8 +36,8 @@ public class ColdBrewerBlockEntity extends BlockEntity implements Muggable, IHav
         super(type, pPos, pBlockState);
     }
 
-    public static boolean isBrewable(ItemStack itemStack) {
-        return itemStack.is(CCItems.LIGHT_COFFEE_GROUNDS.get()) || itemStack.is(CCItems.MEDIUM_COFFEE_GROUNDS.get()) || itemStack.is(CCItems.DARK_COFFEE_GROUNDS.get());
+    public static boolean isBrewable(Item item) {
+        return item instanceof CoffeeGroundItem;
     }
 
     private void update() {
@@ -46,15 +48,13 @@ public class ColdBrewerBlockEntity extends BlockEntity implements Muggable, IHav
         if (hasWater()) {
             if (progress <= 0) {
                 progress = TIME;
-                if (brewingItem.is(CCItems.LIGHT_COFFEE_GROUNDS.get())) {
-                    setFluid(new FluidStack(CCFluids.BLOND_ROAST_COLD_BREW.get().getSource(), 1000));
-                } else if (brewingItem.is(CCItems.MEDIUM_COFFEE_GROUNDS.get())) {
-                    setFluid(new FluidStack(CCFluids.MEDIUM_ROAST_COLD_BREW.get().getSource(), 1000));
-                } else if (brewingItem.is(CCItems.DARK_COFFEE_GROUNDS.get())) {
-                    setFluid(new FluidStack(CCFluids.DARK_ROAST_COLD_BREW.get().getSource(), 1000));
+                if (isBrewable(brewingItem.getItem())) {
+                    FluidStack coffeeFluidStack = new FluidStack(CCFluids.COFFEE.get().getSource(), getAmount());
+                    CoffeeFluid.fromItem(coffeeFluidStack, brewingItem.getItem());
+                    setFluid(coffeeFluidStack);
                 }
                 setItem(ItemStack.EMPTY);
-            } else if (isBrewable(brewingItem)) {
+            } else if (isBrewable(brewingItem.getItem())) {
                 progress--;
                 update();
             }
