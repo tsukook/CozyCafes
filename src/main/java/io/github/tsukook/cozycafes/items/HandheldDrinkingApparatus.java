@@ -90,7 +90,7 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
         CompoundTag compoundTag = itemStack.getTag();
-        if (compoundTag == null || !compoundTag.contains("Fluid")) {
+        if (compoundTag == null || !compoundTag.contains("Fluid") || compoundTag.getCompound("Fluid").getInt("Amount") == 0) {
             return InteractionResultHolder.pass(itemStack);
         }
         return ItemUtils.startUsingInstantly(level, player, interactionHand);
