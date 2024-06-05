@@ -3,6 +3,7 @@ package io.github.tsukook.cozycafes.items;
 import io.github.tsukook.cozycafes.blocks.Muggable;
 import io.github.tsukook.cozycafes.effects.CCEffects;
 import io.github.tsukook.cozycafes.fluids.CCFluids;
+import io.github.tsukook.cozycafes.fluids.CoffeeFluid;
 import io.github.tsukook.cozycafes.folder.Syrup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -63,28 +64,18 @@ public abstract class HandheldDrinkingApparatus extends PickupableBlockItem{
 
         if (!level.isClientSide()) {
             FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compoundTag.getCompound("Fluid"));
-            Fluid fluid = fluidStack.getFluid();
-            int duration;
+            if (fluidStack.getFluid() instanceof CoffeeFluid coffeeFluid) {
+                int duration = CoffeeFluid.getCaffeineDuration(fluidStack);
 
-            // These are copied from the durations given by coffee grounds, these should probably be changed
-            if (fluid.isSame(CCFluids.BLOND_ROAST_COLD_BREW.get())) {
-                duration = 600*20;
-            } else if (fluid.isSame(CCFluids.MEDIUM_ROAST_COLD_BREW.get())) {
-                duration = 300*20;
-            } else if (fluid.isSame(CCFluids.DARK_ROAST_COLD_BREW.get())) {
-                duration = 150*20;
-            } else {
-                duration = 0;
-            }
-
-            if (duration != 0) {
-                livingEntity.addEffect(new MobEffectInstance(CCEffects.CAFFEINATED.get(), duration, 0));
-                CompoundTag fluidTag = fluidStack.getTag();
-                if (fluidTag != null && fluidTag.contains("Syrup")) {
-                    Syrup syrup = Syrup.readFromNBT(fluidTag.getCompound("Syrup"));
-                    syrup.getEffects().forEach(mobEffectInstance -> {
-                        livingEntity.addEffect(new MobEffectInstance(mobEffectInstance.getEffect(), duration, mobEffectInstance.getAmplifier()));
-                    });
+                if (duration != 0) {
+                    livingEntity.addEffect(new MobEffectInstance(CCEffects.CAFFEINATED.get(), duration, 0));
+                    CompoundTag fluidTag = fluidStack.getTag();
+                    if (fluidTag != null && fluidTag.contains("Syrup")) {
+                        Syrup syrup = Syrup.readFromNBT(fluidTag.getCompound("Syrup"));
+                        syrup.getEffects().forEach(mobEffectInstance -> {
+                            livingEntity.addEffect(new MobEffectInstance(mobEffectInstance.getEffect(), duration, mobEffectInstance.getAmplifier()));
+                        });
+                    }
                 }
             }
         }
