@@ -22,6 +22,7 @@ public class CozyCafes {
     public CozyCafes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         REGISTRATE.registerEventListeners(modEventBus);
+
         REGISTRATE.defaultCreativeTab("cozycafes", b -> b.icon(CCBlocks.MUG_BLOCK::asStack)).register();
         CCItems.register();
         CCBlocks.register();
