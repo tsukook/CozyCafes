@@ -7,5 +7,6 @@ public class CCRegistry {
 
     public static void registerAll() {
         CCBlocks.register();
+        CCBlockEntities.register();
     }
 }
