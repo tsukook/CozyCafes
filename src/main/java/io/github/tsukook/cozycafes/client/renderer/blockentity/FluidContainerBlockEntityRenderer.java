@@ -1,10 +1,10 @@
 package io.github.tsukook.cozycafes.client.renderer.blockentity;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.github.tsukook.cozycafes.block.entity.FluidContainerBlockEntity;
 import io.github.tsukook.cozycafes.client.renderer.RenderHelper;
-import io.github.tsukook.cozycafes.client.renderer.Shape;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,10 +20,15 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<FluidContainerBlockEntity> {
-    private Shape fluidShape;
+    private float x0, y0, z0, x1, y1, z1;
 
-    public FluidContainerBlockEntityRenderer(BlockEntityRendererProvider.Context context, Shape fluidShape) {
-        this.fluidShape = fluidShape;
+    public FluidContainerBlockEntityRenderer(BlockEntityRendererProvider.Context context, float x0, float y0, float z0, float x1, float y1, float z1) {
+        this.x0 = x0 / 16;
+        this.y0 = y0 / 16;
+        this.z0 = z0 / 16;
+        this.x1 = x1 / 16;
+        this.y1 = y1 / 16;
+        this.z1 = z1 / 16;
     }
 
     @Override
@@ -50,17 +55,6 @@ public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<Fl
 
         VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidState));
 
-        float[] quads = fluidShape.getQuads();
-        for (int i = 0; i < quads.length; i += 6) {
-            float x0 = quads[i];
-            float y0 = quads[i + 1];
-            float z0 = quads[i + 2];
-
-            float x1 = quads[i + 3];
-            float y1 = quads[i + 4];
-            float z1 = quads[i + 5];
-
-            RenderHelper.drawQuad(builder, poseStack, x0, y0, z0, x1, y1, z1, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), light, tintColor);
-        }
+        RenderHelper.drawBox(builder, poseStack, x0, y0, z0, x1, y1, z1, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), light, tintColor);
     }
 }
