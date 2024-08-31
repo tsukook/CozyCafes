@@ -20,7 +20,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<FluidContainerBlockEntity> {
-    private float x0, y0, z0, x1, y1, z1;
+    private final float x0, y0, z0, x1, y1, z1;
 
     public FluidContainerBlockEntityRenderer(BlockEntityRendererProvider.Context context, float x0, float y0, float z0, float x1, float y1, float z1) {
         this.x0 = x0 / 16;
@@ -55,6 +55,8 @@ public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<Fl
 
         VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidState));
 
-        RenderHelper.drawBox(builder, poseStack, x0, y0, z0, x1, y1, z1, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), light, tintColor);
+        float height = (float) fluidContainerBlockEntity.getFluidTank().getFluidAmount() / fluidContainerBlockEntity.getFluidTank().getCapacity();
+
+        RenderHelper.drawBox(builder, poseStack, x0, y0, z0, x1, y1 * height, z1, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), light, tintColor);
     }
 }

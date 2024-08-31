@@ -18,6 +18,10 @@ public class FluidContainerBlockEntity extends BlockEntity {
         fluidTank.setCapacity(capacity);
     }
 
+    public FluidTank getFluidTank() {
+        return fluidTank;
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
