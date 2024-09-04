@@ -22,7 +22,7 @@ public class CCBlocks {
             .properties(properties -> properties.noOcclusion())
             .defaultBlockstate()
             .lang("Test Drinkable")
-            .item(DrinkableBlockItem::new)
+            .item((drinkableBlock, properties) -> new DrinkableBlockItem(drinkableBlock, properties, 40))
             .build()
             .register();
 
