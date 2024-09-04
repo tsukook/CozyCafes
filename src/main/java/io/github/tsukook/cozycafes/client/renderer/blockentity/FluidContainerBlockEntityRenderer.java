@@ -8,6 +8,7 @@ import io.github.tsukook.cozycafes.client.renderer.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -21,19 +22,25 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<FluidContainerBlockEntity> {
     private final float x0, y0, z0, x1, y1, z1;
+    private final boolean cullingEnabled;
 
     public FluidContainerBlockEntityRenderer(BlockEntityRendererProvider.Context context, float x0, float y0, float z0, float x1, float y1, float z1) {
+        this(context, x0, y0, z0, x1, y1, z1, true);
+    }
+
+    public FluidContainerBlockEntityRenderer(BlockEntityRendererProvider.Context context, float x0, float y0, float z0, float x1, float y1, float z1, boolean cullingEnabled) {
         this.x0 = x0 / 16;
         this.y0 = y0 / 16;
         this.z0 = z0 / 16;
         this.x1 = x1 / 16;
         this.y1 = y1 / 16;
         this.z1 = z1 / 16;
+        this.cullingEnabled = cullingEnabled;
     }
 
     @Override
     public void render(FluidContainerBlockEntity fluidContainerBlockEntity, float v, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int i1) {
-        FluidStack fluidStack = fluidContainerBlockEntity.getFluidTank().getFluid();
+        FluidStack fluidStack = fluidContainerBlockEntity.getFluid();
         if (fluidStack.isEmpty())
             return;
 
@@ -55,8 +62,14 @@ public class FluidContainerBlockEntityRenderer implements BlockEntityRenderer<Fl
 
         VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidState));
 
-        float height = (float) fluidContainerBlockEntity.getFluidTank().getFluidAmount() / fluidContainerBlockEntity.getFluidTank().getCapacity();
+        float height = (float) fluidContainerBlockEntity.getAmount() / fluidContainerBlockEntity.getCapacity();
 
         RenderHelper.drawBox(builder, poseStack, x0, y0, z0, x1, y1 * height, z1, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), light, tintColor);
+
+        if (!cullingEnabled) {
+            RenderSystem.disableCull();
+            Minecraft.getInstance().renderBuffers().bufferSource().endBatch();
+            RenderSystem.enableCull();
+        }
     }
 }
