@@ -1,4 +1,4 @@
-package io.tsukook.cozycafes;
+package io.tsukook.github.cozycafes;
 
 import java.util.List;
 import java.util.Set;
