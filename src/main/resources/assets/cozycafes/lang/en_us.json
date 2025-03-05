@@ -1,5 +1,4 @@
 {
-  "itemGroup.cozycafes": "Example Mod Tab",
-  "block.cozycafes.example_block": "Example Block",
-  "item.cozycafes.example_item": "Example Item"
+  "itemGroup.cozycafes": "Cozy Cafes",
+  "block.cozycafes.coffee_plant": "Coffee Plant"
 }

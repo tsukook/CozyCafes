@@ -1,20 +1,42 @@
 package io.tsukook.github.cozycafes.blocks;
 
-import io.tsukook.github.cozycafes.CozyCafes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import org.jetbrains.annotations.Nullable;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
+    public static final EnumProperty<TripleTallBlock> SEGMENT = EnumProperty.create("segment", TripleTallBlock.class);
+
     public CoffeePlant(Properties properties) {
         super(properties);
+
+        registerDefaultState(getStateDefinition().any()
+                .setValue(AGE, 0)
+                .setValue(SEGMENT, TripleTallBlock.BOTTOM)
+        );
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(AGE);
+        builder.add(SEGMENT);
+    }
+
+    @Override
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState();
     }
 
     @Override
