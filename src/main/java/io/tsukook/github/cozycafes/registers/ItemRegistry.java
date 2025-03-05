@@ -10,8 +10,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ItemRegistry {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CozyCafes.MODID);
 
-    public static final DeferredItem<Item> TEST_ITEM = ITEMS.registerSimpleItem("test_item", new Item.Properties().overrideDescription("discreption"));
-    public static final DeferredItem<BlockItem> TEST_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.TEST_BLOCK);
+    //public static final DeferredItem<Item> TEST_ITEM = ITEMS.registerSimpleItem("test_item", new Item.Properties().overrideDescription("discreption"));
+    //public static final DeferredItem<BlockItem> TEST_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.TEST_BLOCK);
+    public static final DeferredItem<BlockItem> COFFEE_PLANT_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.COFFEE_PLANT);
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

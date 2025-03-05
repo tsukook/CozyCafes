@@ -15,10 +15,9 @@ public class CreativeTabRegistry {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> COZY_CAFES_TAB = CREATIVE_MODE_TABS.register("cozy_cafes_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.cozycafes"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ItemRegistry.TEST_ITEM.get().getDefaultInstance())
+            .icon(() -> ItemRegistry.COFFEE_PLANT_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(ItemRegistry.TEST_ITEM.get());
-                output.accept(ItemRegistry.TEST_BLOCK_ITEM.get());
+                output.accept(ItemRegistry.COFFEE_PLANT_ITEM.get());
             }).build());
 
     public static void register(IEventBus modEventBus) {
