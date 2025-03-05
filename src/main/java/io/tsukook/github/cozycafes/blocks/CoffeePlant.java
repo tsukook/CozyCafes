@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
+    public static final int MAX_AGE = 6;
     public static final EnumProperty<TripleTallBlock> SEGMENT = EnumProperty.create("segment", TripleTallBlock.class);
 
     public CoffeePlant(Properties properties) {
@@ -52,5 +53,30 @@ public class CoffeePlant extends Block implements BonemealableBlock {
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("Bonemealsd"), false);
+    }
+
+    @Override
+    protected boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(AGE) != MAX_AGE;
+    }
+
+    protected void grow(BlockState state, ServerLevel level, BlockPos pos) {
+        int age = state.getValue(AGE) + 1;
+
+        level.setBlock(pos, state.setValue(AGE, age), 1 | 2);
+
+        if (age > 1) {
+            level.setBlock(pos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
+            if (age > 3) {
+                level.setBlock(pos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
+            }
+        }
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (state.getValue(SEGMENT) != TripleTallBlock.BOTTOM)
+            return;
+        grow(state, level, pos);
     }
 }
