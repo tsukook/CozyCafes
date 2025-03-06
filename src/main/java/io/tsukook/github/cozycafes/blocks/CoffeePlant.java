@@ -1,5 +1,6 @@
 package io.tsukook.github.cozycafes.blocks;
 
+import io.tsukook.github.cozycafes.registers.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -60,9 +61,11 @@ public class CoffeePlant extends Block implements BonemealableBlock {
         return state.getValue(AGE) != MAX_AGE;
     }
 
-    protected void grow(BlockState state, ServerLevel level, BlockPos pos) {
-        int age = state.getValue(AGE) + 1;
+    protected boolean canGrowAtBlock(LevelReader level, BlockPos pos) {
+        return level.getBlockState(pos).isAir() || level.getBlockState(pos).is(this);
+    }
 
+    protected void updatePlant(BlockState state, ServerLevel level, BlockPos pos, int age) {
         level.setBlock(pos, state.setValue(AGE, age), 1 | 2);
 
         if (age > 1) {
@@ -77,6 +80,17 @@ public class CoffeePlant extends Block implements BonemealableBlock {
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(SEGMENT) != TripleTallBlock.BOTTOM)
             return;
-        grow(state, level, pos);
+
+        int age = state.getValue(AGE);
+        if (age == 1) {
+            if (canGrowAtBlock(level, pos.above()))
+                age++;
+        }
+        else if (age == 3) {
+            if (canGrowAtBlock(level, pos.above(2)))
+                age++;
+        } else
+            age++;
+        updatePlant(state, level, pos, age);
     }
 }
