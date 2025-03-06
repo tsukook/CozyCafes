@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -92,5 +93,21 @@ public class CoffeePlant extends Block implements BonemealableBlock {
         } else
             age++;
         updatePlant(state, level, pos, age);
+    }
+
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        BlockPos bottomBlockPos = pos;
+        while (level.getBlockState(bottomBlockPos.below()).is(this)) {
+            bottomBlockPos = bottomBlockPos.below();
+        }
+
+        BlockPos nextBlockPos = bottomBlockPos;
+        while (level.getBlockState(nextBlockPos).is(this) || nextBlockPos.equals(pos)) {
+            if (nextBlockPos != pos) {
+                level.destroyBlock(nextBlockPos, true);
+            }
+            nextBlockPos = nextBlockPos.above();
+        }
     }
 }

@@ -4,6 +4,7 @@ import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
 public enum TripleTallBlock implements StringRepresentable {
+    // Do NOT change the order of these!
     BOTTOM,
     MIDDLE,
     TOP;
