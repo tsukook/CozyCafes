@@ -13,6 +13,7 @@ public class ItemRegistry {
     //public static final DeferredItem<Item> TEST_ITEM = ITEMS.registerSimpleItem("test_item", new Item.Properties().overrideDescription("discreption"));
     //public static final DeferredItem<BlockItem> TEST_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.TEST_BLOCK);
     public static final DeferredItem<BlockItem> COFFEE_PLANT_ITEM = ITEMS.registerSimpleBlockItem(BlockRegistry.COFFEE_PLANT);
+    public static final DeferredItem<Item> COFFEE_BERRY = ITEMS.registerSimpleItem("coffee_berry", new Item.Properties());
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

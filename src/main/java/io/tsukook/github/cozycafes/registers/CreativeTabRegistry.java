@@ -18,6 +18,7 @@ public class CreativeTabRegistry {
             .icon(() -> ItemRegistry.COFFEE_PLANT_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegistry.COFFEE_PLANT_ITEM.get());
+                output.accept(ItemRegistry.COFFEE_BERRY.get());
             }).build());
 
     public static void register(IEventBus modEventBus) {
