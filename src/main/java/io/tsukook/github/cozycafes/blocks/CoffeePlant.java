@@ -1,12 +1,19 @@
 package io.tsukook.github.cozycafes.blocks;
 
 import io.tsukook.github.cozycafes.registers.BlockRegistry;
+import io.tsukook.github.cozycafes.registers.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -17,8 +24,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.util.TriState;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
@@ -98,8 +110,9 @@ public class CoffeePlant extends Block implements BonemealableBlock {
         updatePlant(state, level, pos, age);
     }
 
-    @Override
-    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+    protected void forAllBlocksInPlant(LevelAccessor level, BlockPos pos, Consumer<BlockPos> action) {forAllBlocksInPlant(level, pos, action,false);}
+
+    protected void forAllBlocksInPlant(LevelAccessor level, BlockPos pos, Consumer<BlockPos> action, boolean skipOriginal) {
         BlockPos bottomBlockPos = pos;
         while (level.getBlockState(bottomBlockPos.below()).is(this)) {
             bottomBlockPos = bottomBlockPos.below();
@@ -107,11 +120,16 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
         BlockPos nextBlockPos = bottomBlockPos;
         while (level.getBlockState(nextBlockPos).is(this) || nextBlockPos.equals(pos)) {
-            if (nextBlockPos != pos) {
-                level.destroyBlock(nextBlockPos, true);
+            if (nextBlockPos != pos || !skipOriginal) {
+                action.accept(nextBlockPos);
             }
             nextBlockPos = nextBlockPos.above();
         }
+    }
+
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        forAllBlocksInPlant(level, pos, pos1 -> level.destroyBlock(pos1, true), true);
     }
 
 
@@ -127,5 +145,23 @@ public class CoffeePlant extends Block implements BonemealableBlock {
             return belowBlockState.is(BlockTags.DIRT);
         }
         return false;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        int age = state.getValue(AGE);
+        if (age != 6)
+            return InteractionResult.PASS;
+
+        forAllBlocksInPlant(level, pos, pos1 -> {
+            BlockState blockState = level.getBlockState(pos1);
+            popResource(level, pos1, new ItemStack(ItemRegistry.COFFEE_BERRY.get()));
+            BlockState newBlockState = blockState.setValue(AGE, 4);
+            level.setBlock(pos1, newBlockState, 3);
+        });
+
+        level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0f, 0.8f + level.random.nextFloat() * 0.4f);
+
+        return InteractionResult.SUCCESS;
     }
 }
