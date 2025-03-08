@@ -2,8 +2,10 @@ package io.tsukook.github.cozycafes.blocks;
 
 import io.tsukook.github.cozycafes.registers.BlockRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.neoforged.neoforge.common.util.TriState;
 import org.jetbrains.annotations.Nullable;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
@@ -109,5 +112,20 @@ public class CoffeePlant extends Block implements BonemealableBlock {
             }
             nextBlockPos = nextBlockPos.above();
         }
+    }
+
+
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        TripleTallBlock segment = state.getValue(SEGMENT);
+        if (segment == TripleTallBlock.BOTTOM) {
+            BlockPos belowBlockPos = pos.below();
+            BlockState belowBlockState = level.getBlockState(belowBlockPos);
+            TriState soilDecision = belowBlockState.canSustainPlant(level, belowBlockPos, Direction.UP, state);
+            if (!soilDecision.isDefault()) return soilDecision.isTrue();
+            return belowBlockState.is(BlockTags.DIRT);
+        }
+        return false;
     }
 }
