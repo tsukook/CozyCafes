@@ -1,6 +1,7 @@
 package io.tsukook.github.cozycafes.blocks;
 
 import com.mojang.serialization.MapCodec;
+import io.tsukook.github.cozycafes.blocks.entities.CoffeePulperBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -41,6 +42,6 @@ public class CoffeePulper extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new CoffeePulperBlockEntity(pos, state);
     }
 }

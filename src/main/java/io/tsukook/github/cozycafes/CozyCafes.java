@@ -1,5 +1,6 @@
 package io.tsukook.github.cozycafes;
 
+import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.BlockRegistry;
 import io.tsukook.github.cozycafes.registers.CreativeTabRegistry;
 import io.tsukook.github.cozycafes.registers.ItemRegistry;
@@ -37,6 +38,7 @@ public class CozyCafes
         BlockRegistry.register(modEventBus);
         ItemRegistry.register(modEventBus);
         CreativeTabRegistry.register(modEventBus);
+        BlockEntityRegistry.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (CozyCafes) to respond directly to events.
