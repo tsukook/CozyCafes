@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "cozycafes:block/coffee_pulper",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "cozycafes:block/coffee_pulper",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "cozycafes:block/coffee_pulper",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "cozycafes:block/coffee_pulper"
+    }
+  }
+}

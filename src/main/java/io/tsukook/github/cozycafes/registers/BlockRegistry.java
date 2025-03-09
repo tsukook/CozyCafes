@@ -2,6 +2,7 @@ package io.tsukook.github.cozycafes.registers;
 
 import io.tsukook.github.cozycafes.CozyCafes;
 import io.tsukook.github.cozycafes.blocks.CoffeePlant;
+import io.tsukook.github.cozycafes.blocks.CoffeePulper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -16,6 +17,7 @@ public class BlockRegistry {
             .noOcclusion()
             .noCollission()
     );
+    public static final DeferredBlock<CoffeePulper> COFFEE_PULPER = BLOCKS.registerBlock("coffee_pulper", CoffeePulper::new, BlockBehaviour.Properties.of().noOcclusion());
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);

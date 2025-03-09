@@ -1,6 +1,5 @@
 package io.tsukook.github.cozycafes.blocks;
 
-import io.tsukook.github.cozycafes.registers.BlockRegistry;
 import io.tsukook.github.cozycafes.registers.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +11,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -28,9 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.util.TriState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
@@ -48,8 +44,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AGE);
-        builder.add(SEGMENT);
+        builder.add(AGE, SEGMENT);
     }
 
     @Override
