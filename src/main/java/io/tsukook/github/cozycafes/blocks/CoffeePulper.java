@@ -7,6 +7,7 @@ import io.tsukook.github.cozycafes.registers.ItemRegistry;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -67,7 +68,7 @@ public class CoffeePulper extends BaseEntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level instanceof ClientLevel clientLevel ? createTickerHelper(blockEntityType, BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::clientTick) : null;
+        return level.isClientSide() ? createTickerHelper(blockEntityType, BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::clientTick) : null;
     }
 
     @Override
@@ -77,6 +78,15 @@ public class CoffeePulper extends BaseEntityBlock {
                 coffeePulperBlockEntity.consumeBerries(stack);
                 return InteractionResult.SUCCESS;
             }
+        }
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
+            coffeePulperBlockEntity.spin(level);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;
     }

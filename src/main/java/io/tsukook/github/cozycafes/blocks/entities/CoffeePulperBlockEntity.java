@@ -1,5 +1,6 @@
 package io.tsukook.github.cozycafes.blocks.entities;
 
+import io.tsukook.github.cozycafes.client.instances.CoffeePulperInstance;
 import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.ItemRegistry;
 import net.minecraft.core.BlockPos;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.Level;
 
 public class CoffeePulperBlockEntity extends BlockEntity {
     @OnlyIn(Dist.CLIENT)
-    public int n_tick = 0;
+    public CoffeePulperInstance coffeePulperInstance = new CoffeePulperInstance();
 
     public ItemStack berries = ItemStack.EMPTY;
 
@@ -24,7 +25,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
 
     @OnlyIn(Dist.CLIENT)
     public static void clientTick(Level level, BlockPos pos, BlockState state, CoffeePulperBlockEntity blockEntity) {
-        blockEntity.n_tick += 1;
+
     }
 
     public void consumeBerries(ItemStack stack) {
@@ -52,5 +53,11 @@ public class CoffeePulperBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         berries = ItemStack.parse(registries, tag.getCompound("Item")).orElse(ItemStack.EMPTY);
+    }
+
+    public void spin(Level level) {
+        if (level.isClientSide()) {
+            coffeePulperInstance.addSpin(0.1f);
+        }
     }
 }

@@ -34,12 +34,17 @@ public class CoffeePulperBlockEntityRenderer implements BlockEntityRenderer<Coff
 
     @Override
     public void render(CoffeePulperBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        blockEntity.coffeePulperInstance.advance(partialTick);
+
         Direction direction = blockEntity.getBlockState().getValue(CoffeePulper.FACING);
         poseStack.pushPose();
         poseStack.translate(0.5, -1, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(directionToYRot(direction)));
-        //poseStack.mulPose(Axis.ZP.rotationDegrees(((float) blockEntity.n_tick / 20 + partialTick / 20) * 90));
-        poseStack.rotateAround(new Quaternionf().rotateZ((float) -(((float) blockEntity.n_tick / 20 + partialTick / 20) * Math.PI)), 0, 1.25f, 0);
+
+        //poseStack.rotateAround(new Quaternionf().rotateZ((float) -(((float) blockEntity.clientSpinVelocity / 20 + partialTick / 20) * Math.PI)), 0, 1.25f, 0);
+
+        poseStack.rotateAround(new Quaternionf().rotateZ(blockEntity.coffeePulperInstance.getCylinderRotation()), 0.0f, 1.25f, 0.0f);
+
         model.renderToBuffer(poseStack, bufferSource.getBuffer(RENDER_TYPE), packedLight, packedOverlay);
         poseStack.popPose();
     }
