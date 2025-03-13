@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 
-public class BlockRegistry {
+public class CzCBlockRegistry {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CozyCafes.MODID);
 
     public static final DeferredBlock<CoffeePlant> COFFEE_PLANT = BLOCKS.registerBlock("coffee_plant", CoffeePlant::new, BlockBehaviour.Properties.of()

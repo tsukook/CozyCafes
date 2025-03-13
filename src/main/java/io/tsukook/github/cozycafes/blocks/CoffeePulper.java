@@ -2,12 +2,10 @@ package io.tsukook.github.cozycafes.blocks;
 
 import com.mojang.serialization.MapCodec;
 import io.tsukook.github.cozycafes.blocks.entities.CoffeePulperBlockEntity;
-import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
-import io.tsukook.github.cozycafes.registers.ItemRegistry;
-import net.minecraft.client.multiplayer.ClientLevel;
+import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
+import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -68,13 +66,13 @@ public class CoffeePulper extends BaseEntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !level.isClientSide() ? createTickerHelper(blockEntityType, BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::serverTick) : null;
+        return !level.isClientSide() ? createTickerHelper(blockEntityType, CzCBlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::serverTick) : null;
     }
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
-            if (stack.is(ItemRegistry.COFFEE_BERRY)) {
+            if (stack.is(CzCItemRegistry.COFFEE_BERRY)) {
                 coffeePulperBlockEntity.consumeBerries(stack);
                 return InteractionResult.SUCCESS;
             }

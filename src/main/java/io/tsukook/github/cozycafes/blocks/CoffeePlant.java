@@ -1,6 +1,6 @@
 package io.tsukook.github.cozycafes.blocks;
 
-import io.tsukook.github.cozycafes.registers.ItemRegistry;
+import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -149,7 +149,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
             return InteractionResult.PASS;
 
         forAllBlocksInPlant(level, pos, pos1 -> {
-            popResource(level, pos1, new ItemStack(ItemRegistry.COFFEE_BERRY.get()));
+            popResource(level, pos1, new ItemStack(CzCItemRegistry.COFFEE_BERRY.get()));
             level.destroyBlock(pos1, true);
         });
 

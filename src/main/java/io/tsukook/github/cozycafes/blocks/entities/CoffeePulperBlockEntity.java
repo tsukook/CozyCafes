@@ -1,7 +1,7 @@
 package io.tsukook.github.cozycafes.blocks.entities;
 
-import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
-import io.tsukook.github.cozycafes.registers.ItemRegistry;
+import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
+import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +21,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
     public ItemStack berries = ItemStack.EMPTY;
 
     public CoffeePulperBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), pos, blockState);
+        super(CzCBlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), pos, blockState);
     }
 
     // TODO: Possibly do something better for decay
@@ -40,7 +40,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
     }
 
     public void consumeBerries(ItemStack stack) {
-        if (!stack.is(ItemRegistry.COFFEE_BERRY))
+        if (!stack.is(CzCItemRegistry.COFFEE_BERRY))
             return;
 
         if (berries.isEmpty()) {

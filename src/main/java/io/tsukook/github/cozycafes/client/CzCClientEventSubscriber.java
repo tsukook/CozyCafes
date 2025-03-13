@@ -3,17 +3,17 @@ package io.tsukook.github.cozycafes.client;
 import io.tsukook.github.cozycafes.CozyCafes;
 import io.tsukook.github.cozycafes.client.models.CoffeePulperCylinderModel;
 import io.tsukook.github.cozycafes.client.renderers.CoffeePulperBlockEntityRenderer;
-import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
+import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 @EventBusSubscriber(modid = CozyCafes.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientEventSubscriber {
+public class CzCClientEventSubscriber {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(CzCBlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
