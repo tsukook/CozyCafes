@@ -68,7 +68,7 @@ public class CoffeePulper extends BaseEntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide() ? createTickerHelper(blockEntityType, BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::clientTick) : null;
+        return !level.isClientSide() ? createTickerHelper(blockEntityType, BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), CoffeePulperBlockEntity::serverTick) : null;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CoffeePulper extends BaseEntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
-            coffeePulperBlockEntity.spin(level);
+            coffeePulperBlockEntity.spin(player);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;

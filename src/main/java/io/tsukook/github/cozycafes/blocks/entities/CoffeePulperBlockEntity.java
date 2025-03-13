@@ -1,21 +1,22 @@
 package io.tsukook.github.cozycafes.blocks.entities;
 
-import io.tsukook.github.cozycafes.client.instances.CoffeePulperInstance;
 import io.tsukook.github.cozycafes.registers.BlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.world.level.Level;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CoffeePulperBlockEntity extends BlockEntity {
-    @OnlyIn(Dist.CLIENT)
-    public CoffeePulperInstance coffeePulperInstance = new CoffeePulperInstance();
+    private HashMap<String, Float> effectors = new HashMap<>();
+    private float spinSpeed;
 
     public ItemStack berries = ItemStack.EMPTY;
 
@@ -23,9 +24,19 @@ public class CoffeePulperBlockEntity extends BlockEntity {
         super(BlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), pos, blockState);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void clientTick(Level level, BlockPos pos, BlockState state, CoffeePulperBlockEntity blockEntity) {
+    // TODO: Possibly do something better for decay
+    public static void serverTick(Level level, BlockPos pos, BlockState state, CoffeePulperBlockEntity blockEntity) {
+        blockEntity.spinSpeed = 0;
+        for (Map.Entry<String, Float> entry : blockEntity.effectors.entrySet()) {
+            float spinSpeed = entry.getValue();
+            blockEntity.spinSpeed += spinSpeed;
 
+            float newSpinSpeed = spinSpeed * 0.95f;
+            if (newSpinSpeed != 0)
+                blockEntity.effectors.put(entry.getKey(), newSpinSpeed);
+            else
+                blockEntity.effectors.remove(entry.getKey());
+        }
     }
 
     public void consumeBerries(ItemStack stack) {
@@ -47,17 +58,28 @@ public class CoffeePulperBlockEntity extends BlockEntity {
 
         if (!berries.isEmpty())
             tag.put("Item", berries.save(registries));
+
+        CompoundTag effectorsTag = new CompoundTag();
+        for (Map.Entry<String, Float> entry : effectors.entrySet()) {
+            effectorsTag.putFloat(entry.getKey(), entry.getValue());
+        }
+        tag.put("effectors", effectorsTag);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         berries = ItemStack.parse(registries, tag.getCompound("Item")).orElse(ItemStack.EMPTY);
+
+        CompoundTag effectorsTag = tag.getCompound("effectors");
+        if (!effectorsTag.isEmpty()) {
+            for (String key : effectorsTag.getAllKeys()) {
+                effectors.put(key, effectorsTag.getFloat(key));
+            }
+        }
     }
 
-    public void spin(Level level) {
-        if (level.isClientSide()) {
-            coffeePulperInstance.addSpin(0.1f);
-        }
+    public void spin(Player player) {
+        effectors.put(player.getStringUUID(), 1f);
     }
 }
