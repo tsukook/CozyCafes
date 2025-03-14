@@ -1,4 +1,4 @@
-package io.tsukook.github.cozycafes.client;
+package io.tsukook.github.cozycafes.events;
 
 import io.tsukook.github.cozycafes.CozyCafes;
 import io.tsukook.github.cozycafes.client.models.CoffeePulperCylinderModel;

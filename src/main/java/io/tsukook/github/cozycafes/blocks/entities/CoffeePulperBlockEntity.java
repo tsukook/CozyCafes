@@ -1,15 +1,22 @@
 package io.tsukook.github.cozycafes.blocks.entities;
 
+import io.tsukook.github.cozycafes.client.instances.CoffeePulperInstance;
+import io.tsukook.github.cozycafes.networking.PulperSpinPayload;
 import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +24,10 @@ import java.util.Map;
 public class CoffeePulperBlockEntity extends BlockEntity {
     private HashMap<String, Float> effectors = new HashMap<>();
     private float spinSpeed;
+    private float pulpProgress;
+
+    @OnlyIn(Dist.CLIENT)
+    public CoffeePulperInstance coffeePulperInstance = new CoffeePulperInstance();
 
     public ItemStack berries = ItemStack.EMPTY;
 
@@ -26,16 +37,23 @@ public class CoffeePulperBlockEntity extends BlockEntity {
 
     // TODO: Possibly do something better for decay
     public static void serverTick(Level level, BlockPos pos, BlockState state, CoffeePulperBlockEntity blockEntity) {
-        blockEntity.spinSpeed = 0;
-        for (Map.Entry<String, Float> entry : blockEntity.effectors.entrySet()) {
-            float spinSpeed = entry.getValue();
-            blockEntity.spinSpeed += spinSpeed;
+        if (level instanceof ServerLevel serverLevel) {
+            float previousSpeed = blockEntity.spinSpeed;
+            blockEntity.spinSpeed = 0;
+            for (Map.Entry<String, Float> entry : blockEntity.effectors.entrySet()) {
+                float spinSpeed = entry.getValue();
+                blockEntity.spinSpeed += spinSpeed;
 
-            float newSpinSpeed = spinSpeed * 0.95f;
-            if (newSpinSpeed != 0)
-                blockEntity.effectors.put(entry.getKey(), newSpinSpeed);
-            else
-                blockEntity.effectors.remove(entry.getKey());
+                float newSpinSpeed = spinSpeed * 0.85f;
+                if (newSpinSpeed != 0 && newSpinSpeed > 0.001)
+                    blockEntity.effectors.put(entry.getKey(), newSpinSpeed);
+                else
+                    blockEntity.effectors.remove(entry.getKey());
+            }
+
+            if (blockEntity.spinSpeed != previousSpeed) {
+                PacketDistributor.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(pos), new PulperSpinPayload(pos, blockEntity.spinSpeed));
+            }
         }
     }
 
