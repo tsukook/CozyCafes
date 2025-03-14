@@ -2,5 +2,6 @@
   "itemGroup.cozycafes": "Cozy Cafes",
   "block.cozycafes.coffee_plant": "Coffee Plant",
   "block.cozycafes.coffee_pulper": "Coffee Pulper",
-  "item.cozycafes.coffee_berry": "Coffee Berry"
+  "item.cozycafes.coffee_berry": "Coffee Berry",
+  "item.cozycafes.pulped_coffee_bean": "Pulped Coffee Bean"
 }
