@@ -7,16 +7,14 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class CoffeePulperInstance {
     private float cylinderRotation = 0;
     private float angularVelocity = 0;
-    private final float DECAY = 0.98f;
+    private final float SPEED = 0.5f;
 
-    public void addSpin(float angularVelocity) {
-        this.angularVelocity += angularVelocity;
+    public void setSpin(float spin) {
+        angularVelocity = spin;
     }
 
     public void advance(float partialTick) {
-        angularVelocity *= DECAY;
-        cylinderRotation += angularVelocity * (1 + partialTick);
-        //cylinderRotation += 0.1f;
+        cylinderRotation += angularVelocity * (1 + partialTick) * SPEED;
     }
 
     public float getCylinderRotation() {
