@@ -71,6 +71,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
 
             if (blockEntity.spinSpeed != previousSpeed) {
                 PacketDistributor.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(pos), new PulperSpinPayload(pos, blockEntity.spinSpeed));
+                blockEntity.setChanged();
             }
 
             if (!blockEntity.berries.isEmpty()) {
@@ -86,6 +87,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
                     double speed = blockEntity.spinSpeed * 0.25f;
                     level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5f + Math.cos(direction) / 2, pos.getY() + 0.25f, pos.getZ() + 0.5f + Math.sin(direction) / 2, new ItemStack(CzCItemRegistry.PULPED_COFFEE_BEAN.get()), Math.cos(direction) * speed, 0, Math.sin(direction) * speed));
                 }
+                blockEntity.setChanged();
             }
         }
     }
