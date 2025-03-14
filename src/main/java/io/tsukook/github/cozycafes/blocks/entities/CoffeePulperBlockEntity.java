@@ -1,14 +1,17 @@
 package io.tsukook.github.cozycafes.blocks.entities;
 
+import io.tsukook.github.cozycafes.blocks.CoffeePulper;
 import io.tsukook.github.cozycafes.client.instances.CoffeePulperInstance;
 import io.tsukook.github.cozycafes.networking.PulperSpinPayload;
 import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -36,12 +39,23 @@ public class CoffeePulperBlockEntity extends BlockEntity {
         super(CzCBlockEntityRegistry.COFFEE_PULPER_BLOCK_ENTITY.get(), pos, blockState);
     }
 
+    private static double directionToYRot(Direction direction) {
+        return switch (direction) {
+            case NORTH -> Math.PI/2;
+            case EAST -> 0;
+            case SOUTH -> Math.PI*3/4; // -90
+            case WEST -> Math.PI;
+            default -> throw new IllegalArgumentException("No y-Rot for vertical axis: " + direction);
+        };
+    }
+
     private int debugTickTracker = 0;
     private int debugLastPulp = 0;
     // TODO: Possibly do something better for decay
     public static void serverTick(Level level, BlockPos pos, BlockState state, CoffeePulperBlockEntity blockEntity) {
         if (level instanceof ServerLevel serverLevel) {
             blockEntity.debugTickTracker += 1;
+
             float previousSpeed = blockEntity.spinSpeed;
             blockEntity.spinSpeed = 0;
             for (Map.Entry<String, Float> entry : blockEntity.effectors.entrySet()) {
@@ -59,13 +73,19 @@ public class CoffeePulperBlockEntity extends BlockEntity {
                 PacketDistributor.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(pos), new PulperSpinPayload(pos, blockEntity.spinSpeed));
             }
 
-            blockEntity.pulpProgress += blockEntity.spinSpeed / 20f;
+            if (!blockEntity.berries.isEmpty()) {
+                blockEntity.pulpProgress += blockEntity.spinSpeed / 20f;
 
-            for (int i = 0; i < Math.floor(blockEntity.pulpProgress); i++) {
-                float ticksSinceLastPulp = blockEntity.debugTickTracker - blockEntity.debugLastPulp;
-                serverLevel.getServer().getPlayerList().broadcastSystemMessage(Component.literal("Ticks since last pulp: " + ticksSinceLastPulp + " (" + 20 / ticksSinceLastPulp + "/s)"), false);
-                blockEntity.debugLastPulp = blockEntity.debugTickTracker;
-                blockEntity.pulpProgress -= 1;
+                for (int i = 0; i < Math.floor(blockEntity.pulpProgress); i++) {
+                    float ticksSinceLastPulp = blockEntity.debugTickTracker - blockEntity.debugLastPulp;
+                    serverLevel.getServer().getPlayerList().broadcastSystemMessage(Component.literal("Seconds since last pulp: " + ticksSinceLastPulp / 20 + " (" + 20 / ticksSinceLastPulp + "/s)"), false);
+                    blockEntity.debugLastPulp = blockEntity.debugTickTracker;
+                    blockEntity.pulpProgress -= 1;
+                    blockEntity.berries.shrink(1);
+                    double direction = Direction.getYRot(state.getValue(CoffeePulper.FACING)) / 180 * Math.PI + Math.PI / 2;
+                    double speed = blockEntity.spinSpeed * 0.25f;
+                    level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5f + Math.cos(direction) / 2, pos.getY() + 0.25f, pos.getZ() + 0.5f + Math.sin(direction) / 2, new ItemStack(CzCItemRegistry.PULPED_COFFEE_BEAN.get()), Math.cos(direction) * speed, 0, Math.sin(direction) * speed));
+                }
             }
         }
     }
