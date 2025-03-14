@@ -97,8 +97,9 @@ public class CoffeePulperBlockEntity extends BlockEntity {
         if (berries.isEmpty()) {
             berries = stack.copyAndClear();
         } else {
-            berries.setCount(berries.getCount() + stack.getCount());
-            stack.setCount(0);
+            int count = Math.min(berries.getCount() + stack.getCount(), 64);
+            stack.shrink(count - berries.getCount());
+            berries.setCount(count);
         }
         setChanged();
     }
