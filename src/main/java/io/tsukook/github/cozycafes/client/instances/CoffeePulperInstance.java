@@ -14,7 +14,7 @@ public class CoffeePulperInstance {
     }
 
     public void advance(float partialTick) {
-        cylinderRotation += angularVelocity * (1 + partialTick) * SPEED;
+        cylinderRotation -= angularVelocity * (1 + partialTick) * SPEED;
     }
 
     public float getCylinderRotation() {
