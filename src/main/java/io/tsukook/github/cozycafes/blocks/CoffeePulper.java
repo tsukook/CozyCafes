@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -22,10 +23,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.List;
+
 
 public class CoffeePulper extends BaseEntityBlock {
     public static EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -73,8 +80,7 @@ public class CoffeePulper extends BaseEntityBlock {
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
             if (stack.is(CzCItemRegistry.COFFEE_BERRY)) {
-                coffeePulperBlockEntity.consumeBerries(stack);
-                return InteractionResult.SUCCESS;
+                return coffeePulperBlockEntity.consumeBerries(stack) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
             }
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND;
@@ -86,6 +92,15 @@ public class CoffeePulper extends BaseEntityBlock {
             coffeePulperBlockEntity.spin(player);
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
+            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, coffeePulperBlockEntity.berries));
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 }

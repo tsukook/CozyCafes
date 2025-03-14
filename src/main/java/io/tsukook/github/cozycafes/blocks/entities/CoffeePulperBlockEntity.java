@@ -90,10 +90,11 @@ public class CoffeePulperBlockEntity extends BlockEntity {
         }
     }
 
-    public void consumeBerries(ItemStack stack) {
+    public boolean consumeBerries(ItemStack stack) {
         if (!stack.is(CzCItemRegistry.COFFEE_BERRY))
-            return;
+            return false;
 
+        int oldCount = berries.getCount();
         if (berries.isEmpty()) {
             berries = stack.copyAndClear();
         } else {
@@ -102,6 +103,10 @@ public class CoffeePulperBlockEntity extends BlockEntity {
             berries.setCount(count);
         }
         setChanged();
+        if (oldCount != berries.getCount())
+            return true;
+        else
+            return false;
     }
 
     @Override
