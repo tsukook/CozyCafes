@@ -54,7 +54,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
-        return level.getBlockState(pos.above()).isAir();
+        return canGrowAtBlock(level, pos);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("Bonemealsd"), false);
+        tryGrow(state, level, pos);
     }
 
     @Override
@@ -77,21 +77,26 @@ public class CoffeePlant extends Block implements BonemealableBlock {
     }
 
     protected void updatePlant(BlockState state, ServerLevel level, BlockPos pos, int age) {
-        level.setBlock(pos, state.setValue(AGE, age), 1 | 2);
+        BlockPos bottomBlockPos = pos;
+        BlockState bottomBlockState = state;
+        while (bottomBlockState.is(this) && bottomBlockState.getValue(SEGMENT) != TripleTallBlock.BOTTOM) {
+            bottomBlockPos = bottomBlockPos.below();
+            bottomBlockState = level.getBlockState(bottomBlockPos);
+        }
+        if (!bottomBlockState.is(this))
+            return;
+
+        level.setBlock(bottomBlockPos, state.setValue(AGE, age), 1 | 2);
 
         if (age > 1) {
-            level.setBlock(pos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
+            level.setBlock(bottomBlockPos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
             if (age > 3) {
-                level.setBlock(pos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
+                level.setBlock(bottomBlockPos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
             }
         }
     }
 
-    @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (state.getValue(SEGMENT) != TripleTallBlock.BOTTOM)
-            return;
-
+    protected void tryGrow(BlockState state, ServerLevel level, BlockPos pos) {
         int age = state.getValue(AGE);
         if (age == 1) {
             if (canGrowAtBlock(level, pos.above()))
@@ -103,6 +108,13 @@ public class CoffeePlant extends Block implements BonemealableBlock {
         } else
             age++;
         updatePlant(state, level, pos, age);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (state.getValue(SEGMENT) != TripleTallBlock.BOTTOM)
+            return;
+        tryGrow(state, level, pos);
     }
 
     protected void forAllBlocksInPlant(LevelAccessor level, BlockPos pos, Consumer<BlockPos> action) {forAllBlocksInPlant(level, pos, action,false);}
