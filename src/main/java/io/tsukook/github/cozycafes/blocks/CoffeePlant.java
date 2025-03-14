@@ -3,7 +3,6 @@ package io.tsukook.github.cozycafes.blocks;
 import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -77,6 +76,17 @@ public class CoffeePlant extends Block implements BonemealableBlock {
     }
 
     protected void updatePlant(BlockState state, ServerLevel level, BlockPos pos, int age) {
+        level.setBlock(pos, state.setValue(AGE, age), 1 | 2);
+
+        if (age > 1) {
+            level.setBlock(pos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
+            if (age > 3) {
+                level.setBlock(pos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
+            }
+        }
+    }
+
+    protected void tryGrow(BlockState state, ServerLevel level, BlockPos pos) {
         BlockPos bottomBlockPos = pos;
         BlockState bottomBlockState = state;
         while (bottomBlockState.is(this) && bottomBlockState.getValue(SEGMENT) != TripleTallBlock.BOTTOM) {
@@ -86,28 +96,17 @@ public class CoffeePlant extends Block implements BonemealableBlock {
         if (!bottomBlockState.is(this))
             return;
 
-        level.setBlock(bottomBlockPos, state.setValue(AGE, age), 1 | 2);
-
-        if (age > 1) {
-            level.setBlock(bottomBlockPos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
-            if (age > 3) {
-                level.setBlock(bottomBlockPos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
-            }
-        }
-    }
-
-    protected void tryGrow(BlockState state, ServerLevel level, BlockPos pos) {
-        int age = state.getValue(AGE);
+        int age = bottomBlockState.getValue(AGE);
         if (age == 1) {
-            if (canGrowAtBlock(level, pos.above()))
+            if (canGrowAtBlock(level, bottomBlockPos.above()))
                 age++;
         }
         else if (age == 3) {
-            if (canGrowAtBlock(level, pos.above(2)))
+            if (canGrowAtBlock(level, bottomBlockPos.above(2)))
                 age++;
         } else
             age++;
-        updatePlant(state, level, pos, age);
+        updatePlant(bottomBlockState, level, bottomBlockPos, age);
     }
 
     @Override
