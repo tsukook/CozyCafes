@@ -13,7 +13,7 @@ public class CzCBlockEntityRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, CozyCafes.MODID);
 
     public static final Supplier<BlockEntityType<CoffeePulperBlockEntity>> COFFEE_PULPER_BLOCK_ENTITY = BLOCK_ENTITIES.register("coffee_pulper",
-            () -> new BlockEntityType<>(CoffeePulperBlockEntity::new, CzCBlockRegistry.COFFEE_PULPER.get()));
+            () -> BlockEntityType.Builder.of(CoffeePulperBlockEntity::new, CzCBlockRegistry.COFFEE_PULPER.get()).build(null));
 
     public static void register(IEventBus modEventBus) {
         BLOCK_ENTITIES.register(modEventBus);

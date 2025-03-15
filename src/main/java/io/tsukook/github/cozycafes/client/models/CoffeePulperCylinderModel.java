@@ -10,6 +10,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 public class CoffeePulperCylinderModel extends Model {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -17,7 +19,7 @@ public class CoffeePulperCylinderModel extends Model {
 	private final ModelPart bb_main;
 
 	public CoffeePulperCylinderModel(ModelPart root) {
-		super(root, RenderType::entityCutoutNoCull);
+		super(renderType -> RenderType.entityCutoutNoCull(renderType));
 		this.bb_main = root.getChild("bb_main");
 	}
 
@@ -26,14 +28,19 @@ public class CoffeePulperCylinderModel extends Model {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(36, 0).addBox(-2.0F, -7.0F, -7.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(36, 0).addBox(-2.0F, -2.0F, -7.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 11).addBox(2.0F, -7.0F, -7.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 11).addBox(-3.0F, -7.0F, -7.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+				.texOffs(36, 0).addBox(-2.0F, -2.0F, -7.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 11).addBox(2.0F, -7.0F, -7.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 11).addBox(-3.0F, -7.0F, -7.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition cube_r1 = bb_main.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(31, 0).addBox(-5.7981F, 1.7981F, -6.499F, 7.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 11).addBox(-2.7981F, -1.2019F, -6.498F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 15).addBox(-4.7981F, -0.2019F, -4.5F, 5.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.25F, -0.5F, 0.0F, 0.0F, -0.7854F));
+				.texOffs(34, 11).addBox(-2.7981F, -1.2019F, -6.498F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 15).addBox(-4.7981F, -0.2019F, -4.5F, 5.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.25F, -0.5F, 0.0F, 0.0F, -0.7854F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
+	}
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+		// Render the main model part using the 5-parameter render method
+		bb_main.render(poseStack, buffer, packedLight, packedOverlay, color);
 	}
 }

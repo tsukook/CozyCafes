@@ -83,7 +83,7 @@ public class CoffeePulperBlockEntity extends BlockEntity {
                     blockEntity.debugLastPulp = blockEntity.debugTickTracker;
                     blockEntity.pulpProgress -= 1;
                     blockEntity.berries.shrink(1);
-                    double direction = Direction.getYRot(state.getValue(CoffeePulper.FACING)) / 180 * Math.PI + Math.PI / 2;
+                    double direction = state.getValue(CoffeePulper.FACING).toYRot() / 180 * Math.PI + Math.PI / 2;
                     double speed = blockEntity.spinSpeed * 0.25f;
                     level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5f + Math.cos(direction) / 2, pos.getY() + 0.25f, pos.getZ() + 0.5f + Math.sin(direction) / 2, new ItemStack(CzCItemRegistry.PULPED_COFFEE_BEAN.get()), Math.cos(direction) * speed, 0, Math.sin(direction) * speed));
                 }
