@@ -11,7 +11,6 @@ import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 
 @Mod(CozyCafes.MODID)
 public class CozyCafes
@@ -21,26 +20,9 @@ public class CozyCafes
 
     public CozyCafes(IEventBus modEventBus, ModContainer modContainer)
     {
-
         CzCBlockRegistry.register(modEventBus);
         CzCItemRegistry.register(modEventBus);
         CzCCreativeTabRegistry.register(modEventBus);
         CzCBlockEntityRegistry.register(modEventBus);
-
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, CzCConfig.SPEC);
     }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    /*@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }*/
 }
