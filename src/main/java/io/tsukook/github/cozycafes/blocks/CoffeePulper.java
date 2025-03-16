@@ -105,4 +105,5 @@ public class CoffeePulper extends BaseEntityBlock {
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+
 }

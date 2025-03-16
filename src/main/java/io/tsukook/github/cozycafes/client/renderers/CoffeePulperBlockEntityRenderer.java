@@ -2,6 +2,7 @@ package io.tsukook.github.cozycafes.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import io.tsukook.github.cozycafes.blocks.CoffeePulper;
 import io.tsukook.github.cozycafes.blocks.entities.CoffeePulperBlockEntity;
 import io.tsukook.github.cozycafes.client.models.CoffeePulperCylinderModel;
@@ -15,7 +16,7 @@ import org.joml.Quaternionf;
 
 public class CoffeePulperBlockEntityRenderer implements BlockEntityRenderer<CoffeePulperBlockEntity> {
     private static final ResourceLocation COFFEE_PULPER_CYLINDER_TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath("cozycafes", "textures/block/coffee_pulper_texture.png");
-    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(COFFEE_PULPER_CYLINDER_TEXTURE_LOCATION);
+    private static final RenderType RENDER_TYPE = VeilRenderType.entityCutoutNoCull(COFFEE_PULPER_CYLINDER_TEXTURE_LOCATION);
     private final CoffeePulperCylinderModel model;
 
     public CoffeePulperBlockEntityRenderer(BlockEntityRendererProvider.Context context) {

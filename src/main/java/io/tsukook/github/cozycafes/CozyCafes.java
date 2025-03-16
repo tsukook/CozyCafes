@@ -1,5 +1,7 @@
 package io.tsukook.github.cozycafes;
 
+import foundry.veil.Veil;
+import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
 import io.tsukook.github.cozycafes.registers.CzCCreativeTabRegistry;
@@ -11,8 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import org.slf4j.Logger;
 
-
-
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import com.mojang.logging.LogUtils;
 
 import net.neoforged.bus.api.IEventBus;
@@ -48,6 +49,7 @@ public class CozyCafes
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
         }
     }
 }
