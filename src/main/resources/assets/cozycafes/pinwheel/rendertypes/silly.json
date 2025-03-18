@@ -1,0 +1,20 @@
+{
+  "format": "POSITION_COLOR_TEX_LIGHTMAP",
+  "mode": "QUADS",
+  "bufferSize": "TRANSIENT",
+  "sort": false,
+  "affectsCrumbling": true,
+  "outline": true,
+  "layers": [
+    {
+      "type": "minecraft:texture",
+      "texture": "%1$s",
+      "blur": true,
+      "mipmap": false
+    },
+    {
+      "type": "minecraft:shader",
+      "name": "rendertype_entity_cutout_no_cull"
+    }
+  ]
+}
