@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "beans=false": {
       "model": "cozycafes:block/water_fermentation_vat"
+    },
+    "beans=true": {
+      "model": "cozycafes:block/water_fermentation_vat_beans"
     }
   }
 }
