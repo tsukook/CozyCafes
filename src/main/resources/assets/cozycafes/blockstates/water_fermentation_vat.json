@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:block/composter"
+      "model": "cozycafes:block/water_fermentation_vat"
     }
   }
 }
