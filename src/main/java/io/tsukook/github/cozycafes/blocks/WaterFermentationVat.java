@@ -83,8 +83,10 @@ public class WaterFermentationVat extends BaseEntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof WaterFermentationVatBlockEntity waterFermentationVatBlockEntity && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
-            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, waterFermentationVatBlockEntity.takeBeans(WaterFermentationVatBlockEntity.MAX_BEANS)));
-            return InteractionResult.SUCCESS;
+            if (waterFermentationVatBlockEntity.getAmountOfBeans() != 0) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, waterFermentationVatBlockEntity.takeBeans(WaterFermentationVatBlockEntity.MAX_BEANS)));
+                return InteractionResult.SUCCESS;
+            }
         }
         return InteractionResult.PASS;
     }
