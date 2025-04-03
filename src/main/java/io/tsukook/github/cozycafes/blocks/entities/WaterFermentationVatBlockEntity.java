@@ -4,7 +4,9 @@ import io.tsukook.github.cozycafes.registers.CzCBlockEntityRegistry;
 import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -42,18 +44,25 @@ public class WaterFermentationVatBlockEntity extends BlockEntity {
         return beans.split(amount);
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, WaterFermentationVatBlockEntity blockEntity) {
-        if (!blockEntity.beans.is(CzCItemRegistry.PULPED_COFFEE_BEAN.get())) {
-            blockEntity.fermentation = 0;
-            return;
-        }
-        blockEntity.fermentation += 1;
+    public int getAmountOfBeans() {
+        return beans.getCount();
+    }
 
-        if (blockEntity.fermentation >= MAX_FERMENTATION_TIME_TICKS) {
-            blockEntity.fermentation = 0;
-            blockEntity.beans = new ItemStack(CzCItemRegistry.FERMENTED_COFFEE_BEAN.get(), blockEntity.beans.getCount());
+    public static void serverTick(Level level, BlockPos pos, BlockState state, WaterFermentationVatBlockEntity blockEntity) {
+        if (level instanceof ServerLevel serverLevel) {
+            if (!blockEntity.beans.is(CzCItemRegistry.PULPED_COFFEE_BEAN.get())) {
+                blockEntity.fermentation = 0;
+                return;
+            }
+            blockEntity.fermentation += 1;
+
+            if (blockEntity.fermentation >= MAX_FERMENTATION_TIME_TICKS) {
+                blockEntity.fermentation = 0;
+                blockEntity.beans = new ItemStack(CzCItemRegistry.FERMENTED_COFFEE_BEAN.get(), blockEntity.beans.getCount());
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 9, 0.2, 0.1, 0.2, 1);
+            }
+            blockEntity.setChanged();
         }
-        blockEntity.setChanged();
     }
 
     @Override
