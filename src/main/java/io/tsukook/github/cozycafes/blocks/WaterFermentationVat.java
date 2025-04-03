@@ -1,6 +1,7 @@
 package io.tsukook.github.cozycafes.blocks;
 
 import com.mojang.serialization.MapCodec;
+import io.tsukook.github.cozycafes.blocks.entities.WaterFermentationVatBlockEntity;
 import io.tsukook.github.cozycafes.registers.CzCItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -56,7 +57,7 @@ public class WaterFermentationVat extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new WaterFermentationVatBlockEntity(pos, state);
     }
 
     @Override
@@ -67,9 +68,9 @@ public class WaterFermentationVat extends BaseEntityBlock {
     // InteractionResult.CONSUME = do not pass and do not animate
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.is(CzCItemRegistry.PULPED_COFFEE_BEAN)) {
+        if (stack.is(CzCItemRegistry.PULPED_COFFEE_BEAN) && level.getBlockEntity(pos) instanceof WaterFermentationVatBlockEntity waterFermentationVatBlockEntity) {
             level.setBlockAndUpdate(pos, state.setValue(BEANS, true));
-            stack.consume(64, player);
+            stack.setCount(waterFermentationVatBlockEntity.addBeans(stack.getCount()));
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
