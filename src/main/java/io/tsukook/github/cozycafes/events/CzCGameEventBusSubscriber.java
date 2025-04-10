@@ -1,8 +1,10 @@
 package io.tsukook.github.cozycafes.events;
 
 import io.tsukook.github.cozycafes.CozyCafes;
+import io.tsukook.github.cozycafes.DandelionCancerManager;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,11 +15,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 @EventBusSubscriber(modid = CozyCafes.MODID)
-public class CzCServerEventBusSubscriber {
+public class CzCGameEventBusSubscriber {
     @SubscribeEvent
     public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
@@ -30,6 +33,19 @@ public class CzCServerEventBusSubscriber {
             player.setItemInHand(event.getHand(), ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET)));
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.SUCCESS);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel serverLevel)
+            DandelionCancerManager.createCancerForLevel(serverLevel);
+    }
+
+    @SubscribeEvent
+    public static void onLevelTickPost(LevelTickEvent.Post event) {
+        if (event.getLevel() instanceof ServerLevel level) {
+            DandelionCancerManager.tickCancer(level);
         }
     }
 }
