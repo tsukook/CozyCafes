@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "cozycafes:block/coffee_plant_bottom_0"
+    "model": "cozycafes:block/coffee_plant/coffee_plant_bottom_0"
   }
 }

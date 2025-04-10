@@ -2,49 +2,49 @@
   "_comment" : "no datagen used here, I'm in agony",
   "variants" : {
     "segment=bottom,age=0" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_0"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_0"
     },
     "segment=bottom,age=1" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_1"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_1"
     },
     "segment=bottom,age=2" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_2"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_2"
     },
     "segment=bottom,age=3" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_2"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_2"
     },
     "segment=bottom,age=4" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_2"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_2"
     },
     "segment=bottom,age=5" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_5"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_5"
     },
     "segment=bottom,age=6" : {
-      "model" : "cozycafes:block/coffee_plant_bottom_6"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_bottom_6"
     },
     "segment=middle,age=2" : {
-      "model" : "cozycafes:block/coffee_plant_middle_2"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_middle_2"
     },
     "segment=middle,age=3" : {
-      "model" : "cozycafes:block/coffee_plant_middle_3"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_middle_3"
     },
     "segment=middle,age=4" : {
-      "model" : "cozycafes:block/coffee_plant_middle_4"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_middle_4"
     },
     "segment=middle,age=5" : {
-      "model" : "cozycafes:block/coffee_plant_middle_5"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_middle_5"
     },
     "segment=middle,age=6" : {
-      "model" : "cozycafes:block/coffee_plant_middle_6"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_middle_6"
     },
     "segment=top,age=4" : {
-      "model" : "cozycafes:block/coffee_plant_top_4"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_top_4"
     },
     "segment=top,age=5" : {
-      "model" : "cozycafes:block/coffee_plant_top_5"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_top_5"
     },
     "segment=top,age=6" : {
-      "model" : "cozycafes:block/coffee_plant_top_6"
+      "model" : "cozycafes:block/coffee_plant/coffee_plant_top_6"
     }
   }
 }
