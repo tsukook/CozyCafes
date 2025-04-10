@@ -1,6 +1,12 @@
 {
   "variants": {
-    "": {
+    "stage=bulb": {
+      "model": "cozycafes:block/dandelion/bulb"
+    },
+    "stage=bloom": {
+      "model": "cozycafes:block/dandelion/vanilla"
+    },
+    "stage=cancer4": {
       "model": "cozycafes:block/dandelion/full"
     }
   }
