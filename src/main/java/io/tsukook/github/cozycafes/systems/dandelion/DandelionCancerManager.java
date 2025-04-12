@@ -1,4 +1,4 @@
-package io.tsukook.github.cozycafes;
+package io.tsukook.github.cozycafes.systems.dandelion;
 
 import net.minecraft.server.level.ServerLevel;
 

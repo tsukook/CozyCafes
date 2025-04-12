@@ -1,7 +1,7 @@
 package io.tsukook.github.cozycafes.events;
 
 import io.tsukook.github.cozycafes.CozyCafes;
-import io.tsukook.github.cozycafes.DandelionCancerManager;
+import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancerManager;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
