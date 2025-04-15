@@ -28,8 +28,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class CoffeePlant extends Block implements BonemealableBlock {
-    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
-    public static final int MAX_AGE = 6;
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 5);
+    public static final int MAX_AGE = 5;
     public static final EnumProperty<TripleTallBlock> SEGMENT = EnumProperty.create("segment", TripleTallBlock.class);
 
     public CoffeePlant(Properties properties) {
@@ -80,7 +80,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
         if (age > 1) {
             level.setBlock(pos.above(), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.MIDDLE), 1 | 2);
-            if (age > 3) {
+            if (age > 2) {
                 level.setBlock(pos.above(2), defaultBlockState().setValue(AGE, age).setValue(SEGMENT, TripleTallBlock.TOP), 1 | 2);
             }
         }
@@ -101,7 +101,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
             if (canGrowAtBlock(level, bottomBlockPos.above()))
                 age++;
         }
-        else if (age == 3) {
+        else if (age == 2) {
             if (canGrowAtBlock(level, bottomBlockPos.above(2)))
                 age++;
         } else
@@ -156,7 +156,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         int age = state.getValue(AGE);
-        if (age != 6)
+        if (age != MAX_AGE)
             return InteractionResult.PASS;
 
         forAllBlocksInPlant(level, pos, pos1 -> {
