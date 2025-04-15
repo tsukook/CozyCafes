@@ -2,6 +2,6 @@
   "parent": "minecraft:block/cross",
   "render_type" : "cutout",
   "textures" : {
-    "cross" : "cozycafes:block/coffee_plant/coffee_plant_bottom_2"
+    "cross" : "cozycafes:block/coffee_plant/bottom_2"
   }
 }
