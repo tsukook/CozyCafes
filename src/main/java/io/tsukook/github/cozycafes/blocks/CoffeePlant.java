@@ -161,7 +161,7 @@ public class CoffeePlant extends Block implements BonemealableBlock {
 
         forAllBlocksInPlant(level, pos, pos1 -> {
             popResource(level, pos1, new ItemStack(CzCItemRegistry.COFFEE_BERRY.get()));
-            level.destroyBlock(pos1, true);
+            level.setBlockAndUpdate(pos1, level.getBlockState(pos1).setValue(AGE, 3));
         });
 
         level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0f, 0.8f + level.random.nextFloat() * 0.4f);
