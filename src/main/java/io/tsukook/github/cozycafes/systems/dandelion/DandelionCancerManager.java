@@ -14,4 +14,12 @@ public class DandelionCancerManager {
     public static void tickCancer(ServerLevel level) {
         cancerHashMap.get(level.dimension().location().toString()).tick();
     }
+
+    public static DandelionCancer getCancer(ServerLevel level) {
+        return getCancer(level.dimension().location().toString());
+    }
+
+    public static DandelionCancer getCancer(String levelLocation) {
+        return cancerHashMap.get(levelLocation);
+    }
 }

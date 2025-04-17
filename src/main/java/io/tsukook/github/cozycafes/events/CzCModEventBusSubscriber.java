@@ -1,9 +1,10 @@
 package io.tsukook.github.cozycafes.events;
 
 import io.tsukook.github.cozycafes.CozyCafes;
+import io.tsukook.github.cozycafes.networking.FlushDandelionSeedsPayload;
 import io.tsukook.github.cozycafes.networking.CzCClientPayloadHandler;
 import io.tsukook.github.cozycafes.networking.PulperSpinPayload;
-import io.tsukook.github.cozycafes.networking.SynchronizeDandelionSeedsPayload;
+import io.tsukook.github.cozycafes.networking.SynchronizeDandelionSeedPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -21,9 +22,15 @@ public class CzCModEventBusSubscriber {
         );
 
         registrar.playToClient(
-                SynchronizeDandelionSeedsPayload.TYPE,
-                SynchronizeDandelionSeedsPayload.STREAM_CODEC,
+                SynchronizeDandelionSeedPayload.TYPE,
+                SynchronizeDandelionSeedPayload.STREAM_CODEC,
                 CzCClientPayloadHandler::handleSynchronizeDandelionSeedsPayload
+        );
+
+        registrar.playToClient(
+                FlushDandelionSeedsPayload.TYPE,
+                FlushDandelionSeedsPayload.STREAM_CODEC,
+                CzCClientPayloadHandler::handleFlushDandelionSeedsPayload
         );
     }
 }
