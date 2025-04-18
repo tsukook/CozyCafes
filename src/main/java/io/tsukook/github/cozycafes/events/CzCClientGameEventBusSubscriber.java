@@ -4,6 +4,7 @@ import io.tsukook.github.cozycafes.CozyCafes;
 import io.tsukook.github.cozycafes.client.renderers.DandelionSeedRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,7 +15,7 @@ public class CzCClientGameEventBusSubscriber {
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
-            DandelionSeedRenderer.render(Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.cutout()), event.getCamera());
+            DandelionSeedRenderer.render(Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.translucentParticle(ResourceLocation.fromNamespaceAndPath(CozyCafes.MODID, "textures/atlas/particles.png"))), event.getCamera(), event.getPartialTick().getGameTimeDeltaTicks());
         }
     }
 }
