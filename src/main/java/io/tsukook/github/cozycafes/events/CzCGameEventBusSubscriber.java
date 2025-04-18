@@ -1,8 +1,11 @@
 package io.tsukook.github.cozycafes.events;
 
+import com.mojang.brigadier.CommandDispatcher;
 import io.tsukook.github.cozycafes.CozyCafes;
+import io.tsukook.github.cozycafes.systems.CzCCommand;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancerManager;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -15,11 +18,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
-@EventBusSubscriber(modid = CozyCafes.MODID)
+@EventBusSubscriber(modid = CozyCafes.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class CzCGameEventBusSubscriber {
     @SubscribeEvent
     public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event) {
@@ -47,5 +51,11 @@ public class CzCGameEventBusSubscriber {
         if (event.getLevel() instanceof ServerLevel level) {
             DandelionCancerManager.tickCancer(level);
         }
+    }
+
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+        CzCCommand.register(dispatcher);
     }
 }
