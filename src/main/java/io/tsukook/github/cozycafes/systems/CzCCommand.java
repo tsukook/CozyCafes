@@ -7,6 +7,7 @@ import io.tsukook.github.cozycafes.systems.dandelion.DandelionSeed;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
 
 public class CzCCommand {
@@ -24,6 +25,7 @@ public class CzCCommand {
                                                                             return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3.ZERO);
                                                                         }).then(Commands.argument("velocity", Vec3Argument.vec3(false))
                                                                                 .executes(context -> {
+                                                                                    context.getSource().sendSystemMessage(Component.literal("Created seed"));
                                                                                     return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3Argument.getVec3(context, "velocity"));
                                                                                 })
                                                                         )
@@ -31,7 +33,7 @@ public class CzCCommand {
                                         ).then(
                                                 Commands.literal("clear")
                                                         .executes(context -> {
-                                                            DandelionCancerManager.getCancer(context.getSource().getLevel()).clearSeeds();
+                                                            context.getSource().sendSystemMessage(Component.literal("Cleared " + DandelionCancerManager.getCancer(context.getSource().getLevel()).clearSeeds() + " dandelion seed(s)"));
                                                             return 1;
                                                         })
                                         )
