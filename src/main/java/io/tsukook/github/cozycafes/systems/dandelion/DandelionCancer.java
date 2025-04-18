@@ -25,8 +25,10 @@ public class DandelionCancer {
     public void addSeed(DandelionSeed seed) {
         seeds.add(seed);
     }
-    public void clearSeeds() {
+    public int clearSeeds() {
+        int count = seeds.size();
         seeds.clear();
+        return count;
     }
 
     public void tick() {
@@ -36,7 +38,7 @@ public class DandelionCancer {
             Vector2i chunk = new Vector2i((int) seed.pos.x, (int) seed.pos.z);
             chunk.div(16);
             if (level.hasChunk(chunk.x, chunk.y)) {
-                seed.pos.add(seed.velocity);
+                DandelionPhysics.tickSeed(seed);
                 PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(chunk.x, chunk.y), new SynchronizeDandelionSeedPayload(seed.pos, seed.velocity));
             }
         }
