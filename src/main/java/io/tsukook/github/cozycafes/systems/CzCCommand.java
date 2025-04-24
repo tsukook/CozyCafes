@@ -1,17 +1,18 @@
 package io.tsukook.github.cozycafes.systems;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancer;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancerManager;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionSeed;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class CzCCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -23,15 +24,44 @@ public class CzCCommand {
                                         .then(
                                                 Commands.literal("create")
                                                         .then(
-                                                                Commands.argument("position", Vec3Argument.vec3())
-                                                                        .executes(context -> {
-                                                                            return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3.ZERO);
-                                                                        }).then(
-                                                                                Commands.argument("velocity", Vec3Argument.vec3(false))
-                                                                                .executes(context -> {
-                                                                                    context.getSource().sendSystemMessage(Component.literal("Created seed"));
-                                                                                    return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3Argument.getVec3(context, "velocity"));
-                                                                                })
+                                                                Commands.literal("single")
+                                                                        .then(
+                                                                                Commands.argument("position", Vec3Argument.vec3())
+                                                                                    .executes(context -> {
+                                                                                    return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3.ZERO);
+                                                                                }).then(
+                                                                                        Commands.argument("velocity", Vec3Argument.vec3(false))
+                                                                                            .executes(context -> {
+                                                                                                context.getSource().sendSystemMessage(Component.literal("Created seed"));
+                                                                                                return createDandelionSeed(context, Vec3Argument.getVec3(context, "position"), Vec3Argument.getVec3(context, "velocity"));
+                                                                                            })
+                                                                                        )
+                                                                        )
+                                                        ).then(
+                                                                Commands.literal("ring")
+                                                                        .then(
+                                                                                Commands.argument("position", Vec3Argument.vec3())
+                                                                                        .then(
+                                                                                                Commands.argument("power", FloatArgumentType.floatArg())
+                                                                                                        .then(
+                                                                                                                Commands.argument("numberOfPoints", IntegerArgumentType.integer(0))
+                                                                                                                        .executes(context -> {
+                                                                                                                            DandelionCancer cancer = getCancer(context);
+                                                                                                                            Vector3f position = Vec3Argument.getVec3(context, "position").toVector3f();
+                                                                                                                            float power = FloatArgumentType.getFloat(context, "power");
+
+                                                                                                                            int numberOfPoints = IntegerArgumentType.getInteger(context, "numberOfPoints");
+                                                                                                                            double interval = Math.PI * 2 / numberOfPoints;
+                                                                                                                            for (int i = 0; i < numberOfPoints; i++) {
+                                                                                                                                double angle = i * interval;
+                                                                                                                                cancer.addSeed(new DandelionSeed(new Vector3f(position), new Vector3f((float) Math.cos(angle), 0, (float) Math.sin(angle)).mul(power)));
+                                                                                                                            }
+
+                                                                                                                            context.getSource().sendSystemMessage(Component.literal("Created ring of " + numberOfPoints + " seed" + (numberOfPoints != 1 ? "s" : "")));
+                                                                                                                            return 1;
+                                                                                                                        })
+                                                                                                        )
+                                                                                        )
                                                                         )
                                                         )
                                         ).then(
