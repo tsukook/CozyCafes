@@ -18,10 +18,10 @@ public class CzCClientPayloadHandler {
     }
 
     public static void handleSynchronizeDandelionSeedsPayload(final SynchronizeDandelionSeedPayload payload, final IPayloadContext context) {
-        DandelionSeedRenderer.addSeed(new DandelionSeed(payload.pos(), payload.velocity()));
+        context.enqueueWork(() -> DandelionSeedRenderer.addSeed(new DandelionSeed(payload.id(), payload.pos(), payload.velocity())));
     }
 
     public static void handleFlushDandelionSeedsPayload(final FlushDandelionSeedsPayload payload, final IPayloadContext context) {
-        DandelionSeedRenderer.flush();
+        context.enqueueWork(DandelionSeedRenderer::flush);
     }
 }
