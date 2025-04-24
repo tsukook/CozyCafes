@@ -49,6 +49,8 @@ public class CzCGameEventBusSubscriber {
     @SubscribeEvent
     public static void onLevelTickPost(LevelTickEvent.Post event) {
         if (event.getLevel() instanceof ServerLevel level) {
+            if (!level.tickRateManager().runsNormally())
+                return;
             DandelionCancerManager.tickCancer(level);
         }
     }
