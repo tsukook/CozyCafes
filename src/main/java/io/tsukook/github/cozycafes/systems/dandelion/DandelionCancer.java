@@ -15,8 +15,9 @@ import java.util.ArrayList;
 // FIXME: Name is a placeholder
 public class DandelionCancer {
     private final ServerLevel level;
-    private boolean ticked = false;
     private final ArrayList<DandelionSeed> seeds = new ArrayList<>(256);
+
+    private boolean isFrozen = false;
 
     public DandelionCancer(ServerLevel level) {
         this.level = level;
@@ -32,16 +33,31 @@ public class DandelionCancer {
     }
 
     public void tick() {
-        // TODO: Send array of seeds per chunk instead of piss stream
-        // TODO: Actually just send on creation and destruction and make physics deterministic
+        tick(false);
+    }
+
+    public void tick(boolean bypassFrozen) {
         for (DandelionSeed seed : seeds) {
             Vector2i chunk = new Vector2i((int) seed.pos.x, (int) seed.pos.z);
             chunk.div(16);
             if (level.hasChunk(chunk.x, chunk.y)) {
-                DandelionPhysics.tickSeed(seed);
-                PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(chunk.x, chunk.y), new SynchronizeDandelionSeedPayload(seed.pos, seed.velocity));
+                if (!isFrozen || bypassFrozen)
+                    DandelionPhysics.tickSeed(seed);
+                PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(chunk.x, chunk.y), new SynchronizeDandelionSeedPayload(seed.getId(), seed.pos, seed.velocity));
             }
         }
         PacketDistributor.sendToPlayersInDimension(level, new FlushDandelionSeedsPayload());
+    }
+
+    public void setFrozen(boolean isFrozen) {
+        this.isFrozen = isFrozen;
+    }
+
+    public int countSeeds() {
+        return seeds.size();
+    }
+
+    public boolean getIsFrozen() {
+        return isFrozen;
     }
 }
