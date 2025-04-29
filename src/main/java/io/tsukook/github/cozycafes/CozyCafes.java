@@ -16,7 +16,7 @@ import net.neoforged.fml.common.Mod;
 public class CozyCafes
 {
     public static final String MODID = "cozycafes";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public CozyCafes(IEventBus modEventBus, ModContainer modContainer)
     {

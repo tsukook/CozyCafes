@@ -1,10 +1,7 @@
 package io.tsukook.github.cozycafes.events;
 
 import io.tsukook.github.cozycafes.CozyCafes;
-import io.tsukook.github.cozycafes.networking.FlushDandelionSeedsPayload;
-import io.tsukook.github.cozycafes.networking.CzCClientPayloadHandler;
-import io.tsukook.github.cozycafes.networking.PulperSpinPayload;
-import io.tsukook.github.cozycafes.networking.SynchronizeDandelionSeedPayload;
+import io.tsukook.github.cozycafes.networking.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -18,19 +15,25 @@ public class CzCModEventBusSubscriber {
         registrar.playToClient(
                 PulperSpinPayload.TYPE,
                 PulperSpinPayload.STREAM_CODEC,
-                CzCClientPayloadHandler::handlePulperSpinPayload
+                CzCClientPayloadHandler::handle
         );
 
         registrar.playToClient(
                 SynchronizeDandelionSeedPayload.TYPE,
                 SynchronizeDandelionSeedPayload.STREAM_CODEC,
-                CzCClientPayloadHandler::handleSynchronizeDandelionSeedsPayload
+                CzCClientPayloadHandler::handle
         );
 
         registrar.playToClient(
                 FlushDandelionSeedsPayload.TYPE,
                 FlushDandelionSeedsPayload.STREAM_CODEC,
-                CzCClientPayloadHandler::handleFlushDandelionSeedsPayload
+                CzCClientPayloadHandler::handle
+        );
+
+        registrar.playToServer(
+                AskForSeedsPayload.TYPE,
+                AskForSeedsPayload.STREAM_CODEC,
+                CzCServerPayloadHandler::handle
         );
     }
 }

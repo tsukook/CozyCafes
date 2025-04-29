@@ -1,7 +1,9 @@
 package io.tsukook.github.cozycafes.systems.dandelion;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class DandelionCancerManager {
@@ -15,7 +17,8 @@ public class DandelionCancerManager {
         cancerHashMap.get(level.dimension().location().toString()).tick();
     }
 
-    public static DandelionCancer getCancer(ServerLevel level) {
+    @Nullable
+    public static DandelionCancer getCancer(Level level) {
         return getCancer(level.dimension().location().toString());
     }
 

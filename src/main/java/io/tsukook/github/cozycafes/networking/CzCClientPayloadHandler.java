@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class CzCClientPayloadHandler {
-    public static void handlePulperSpinPayload(final PulperSpinPayload payload, final IPayloadContext context) {
+    public static void handle(final PulperSpinPayload payload, final IPayloadContext context) {
         Level level = Minecraft.getInstance().level;
         BlockEntity blockEntity = level.getBlockEntity(payload.pos());
         if (blockEntity instanceof CoffeePulperBlockEntity coffeePulperBlockEntity) {
@@ -17,11 +17,11 @@ public class CzCClientPayloadHandler {
         }
     }
 
-    public static void handleSynchronizeDandelionSeedsPayload(final SynchronizeDandelionSeedPayload payload, final IPayloadContext context) {
-        context.enqueueWork(() -> DandelionSeedRenderer.addSeed(new DandelionSeed(payload.id(), payload.pos(), payload.velocity())));
+    public static void handle(final SynchronizeDandelionSeedPayload payload, final IPayloadContext context) {
+        DandelionSeedRenderer.addSeed(new DandelionSeed(payload.id(), payload.pos(), payload.velocity()));
     }
 
-    public static void handleFlushDandelionSeedsPayload(final FlushDandelionSeedsPayload payload, final IPayloadContext context) {
-        context.enqueueWork(DandelionSeedRenderer::flush);
+    public static void handle(final FlushDandelionSeedsPayload payload, final IPayloadContext context) {
+        DandelionSeedRenderer.flush();
     }
 }
