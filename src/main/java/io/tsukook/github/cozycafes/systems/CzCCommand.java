@@ -45,21 +45,11 @@ public class CzCCommand {
                                                                                                 Commands.argument("power", FloatArgumentType.floatArg())
                                                                                                         .then(
                                                                                                                 Commands.argument("numberOfPoints", IntegerArgumentType.integer(0))
-                                                                                                                        .executes(context -> {
-                                                                                                                            DandelionCancer cancer = getCancer(context);
-                                                                                                                            Vector3f position = Vec3Argument.getVec3(context, "position").toVector3f();
-                                                                                                                            float power = FloatArgumentType.getFloat(context, "power");
-
-                                                                                                                            int numberOfPoints = IntegerArgumentType.getInteger(context, "numberOfPoints");
-                                                                                                                            double interval = Math.PI * 2 / numberOfPoints;
-                                                                                                                            for (int i = 0; i < numberOfPoints; i++) {
-                                                                                                                                double angle = i * interval;
-                                                                                                                                cancer.addSeed(new DandelionSeed(new Vector3f(position), new Vector3f((float) Math.cos(angle), 0, (float) Math.sin(angle)).mul(power)));
-                                                                                                                            }
-
-                                                                                                                            context.getSource().sendSystemMessage(Component.literal("Created ring of " + numberOfPoints + " seed" + (numberOfPoints != 1 ? "s" : "")));
-                                                                                                                            return 1;
-                                                                                                                        })
+                                                                                                                        .executes(context -> createRing(context, new Vector3f()))
+                                                                                                                        .then(
+                                                                                                                                Commands.argument("offsetVelocity", Vec3Argument.vec3(false))
+                                                                                                                                        .executes(context -> createRing(context, Vec3Argument.getVec3(context, "offsetVelocity").toVector3f()))
+                                                                                                                        )
                                                                                                         )
                                                                                         )
                                                                         )
@@ -121,6 +111,22 @@ public class CzCCommand {
                                         )
                                 )
         );
+    }
+
+    private static int createRing(CommandContext<CommandSourceStack> context, Vector3f offset) {
+        DandelionCancer cancer = getCancer(context);
+        Vector3f position = Vec3Argument.getVec3(context, "position").toVector3f();
+        float power = FloatArgumentType.getFloat(context, "power");
+
+        int numberOfPoints = IntegerArgumentType.getInteger(context, "numberOfPoints");
+        double interval = Math.PI * 2 / numberOfPoints;
+        for (int i = 0; i < numberOfPoints; i++) {
+            double angle = i * interval;
+            cancer.addSeed(new DandelionSeed(new Vector3f(position), new Vector3f((float) Math.cos(angle), 0, (float) Math.sin(angle)).mul(power).add(offset)));
+        }
+
+        context.getSource().sendSystemMessage(Component.literal("Created ring of " + numberOfPoints + " seed" + (numberOfPoints != 1 ? "s" : "")));
+        return 1;
     }
 
     private static DandelionCancer getCancer(CommandContext<CommandSourceStack> context) {
