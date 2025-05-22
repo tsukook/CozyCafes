@@ -17,5 +17,11 @@ public class CzCModEventBusSubscriber {
                 PulperSpinPayload.STREAM_CODEC,
                 CzCClientPayloadHandler::handle
         );
+
+        registrar.playToClient(
+                DandelionSeedStatePayload.TYPE,
+                DandelionSeedStatePayload.STREAM_CODEC,
+                CzCClientPayloadHandler::handle
+        );
     }
 }

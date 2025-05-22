@@ -1,11 +1,14 @@
 package io.tsukook.github.cozycafes.client.renderers;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import io.tsukook.github.cozycafes.systems.dandelion.DandelionSeed;
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+
+import java.util.ArrayList;
 
 public class DandelionSeedRenderer {
     private static void renderVertex(VertexConsumer buffer, Quaternionf quaternionf, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
@@ -51,6 +54,10 @@ public class DandelionSeedRenderer {
     }
 
     public static void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+
+    }
+
+    public static void addNewState(long timestamp, ArrayList<DandelionSeed> seeds) {
 
     }
 }
