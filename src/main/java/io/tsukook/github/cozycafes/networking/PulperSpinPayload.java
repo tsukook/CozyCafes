@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record PulperSpinPayload(BlockPos pos, float spinSpeed) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<PulperSpinPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(CozyCafes.MODID, "float_payload"));
+    public static final CustomPacketPayload.Type<PulperSpinPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(CozyCafes.MODID, "pulper_spin"));
 
     public static final StreamCodec<ByteBuf, PulperSpinPayload> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,
