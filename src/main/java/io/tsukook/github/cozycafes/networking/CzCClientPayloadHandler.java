@@ -17,6 +17,6 @@ public class CzCClientPayloadHandler {
     }
 
     public static void handle(final DandelionSeedStatePayload payload, final IPayloadContext context) {
-        DandelionSeedRenderer.addNewState(payload.timestamp(), payload.dandelionSeeds());
+        DandelionSeedRenderer.addNewState(payload.state());
     }
 }
