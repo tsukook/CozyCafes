@@ -1,7 +1,7 @@
 package io.tsukook.github.cozycafes.client.renderers;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import io.tsukook.github.cozycafes.systems.dandelion.DandelionSeed;
+import io.tsukook.github.cozycafes.systems.dandelion.DandelionState;
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.world.phys.Vec3;
@@ -9,8 +9,13 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DandelionSeedRenderer {
+    // Render latest in like red or smth
+    private static final ArrayList<DandelionState> stateBuffer = new ArrayList<>(5);
+    private static final long DELAY_MILLIS = 100;
+
     private static void renderVertex(VertexConsumer buffer, Quaternionf quaternionf, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
         renderVertex(buffer, quaternionf, x, y, z, xOffset, yOffset, quadSize, u, v, packedLight, 0xffffffff);
     }
@@ -54,10 +59,43 @@ public class DandelionSeedRenderer {
     }
 
     public static void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+        long targetTime = System.currentTimeMillis() - DELAY_MILLIS;
+        float alpha = -1;
+        DandelionState prev = null;
+        DandelionState next = null;
+        for (int i = 0; i < stateBuffer.size() - 1; i++) {
+            prev = stateBuffer.get(i);
+            next = stateBuffer.get(i + 1);
+            if (prev.timestampMillis() <= targetTime && targetTime < next.timestampMillis()) {
+                alpha = (float) (targetTime - prev.timestampMillis()) / (next.timestampMillis() - prev.timestampMillis());
+                break;
+            }
+        }
 
+        if (prev == null || next == null)
+            return;
+
+        // Yuck!
+        DandelionState finalNext = next;
+        float finalAlpha = alpha;
+        prev.seeds().forEach((id, seed) -> {
+            if (finalNext.seeds().containsKey(id)) {
+                Vector3f interpolated = new Vector3f();
+                seed.pos.lerp(finalNext.seeds().get(id).pos, finalAlpha, interpolated);
+
+                renderSingle(buffer, interpolated, camera, partialTicks);
+            }
+        });
+
+        /*next.seeds().forEach((id, seed) -> {
+            renderSingle(buffer, seed.pos, camera, partialTicks, 0xffff0000);
+        });*/
     }
 
-    public static void addNewState(long timestamp, ArrayList<DandelionSeed> seeds) {
-
+    public static void addNewState(DandelionState state) {
+        stateBuffer.add(state);
+        if (stateBuffer.size() >= 5) {
+            stateBuffer.removeFirst();
+        }
     }
 }
