@@ -4,8 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import io.tsukook.github.cozycafes.registers.PerLevelTickerManagerRegistry;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancer;
-import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancerManager;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionSeed;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -130,11 +130,11 @@ public class CzCCommand {
     }
 
     private static DandelionCancer getCancer(CommandContext<CommandSourceStack> context) {
-        return DandelionCancerManager.getCancer(context.getSource().getLevel());
+        return PerLevelTickerManagerRegistry.DANDELION_CANCER_MANAGER.getTicker(context.getSource().getLevel());
     }
 
     public static int createDandelionSeed(CommandContext<CommandSourceStack> context, Vec3 pos, Vec3 vel) {
-        DandelionCancerManager.getCancer(context.getSource().getLevel()).addSeed(new DandelionSeed(pos.toVector3f(), vel.toVector3f()));
+        getCancer(context).addSeed(new DandelionSeed(pos.toVector3f(), vel.toVector3f()));
         return 1;
     }
 }

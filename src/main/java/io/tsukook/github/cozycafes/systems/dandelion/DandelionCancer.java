@@ -2,11 +2,13 @@ package io.tsukook.github.cozycafes.systems.dandelion;
 
 import io.tsukook.github.cozycafes.networking.DandelionSeedStatePayloadBuilder;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
+import io.tsukook.github.cozycafes.systems.PerLevelTicker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -17,15 +19,15 @@ import org.joml.Vector2i;
 import java.util.*;
 
 // FIXME: Name is a placeholder
-public class DandelionCancer {
+public class DandelionCancer implements PerLevelTicker {
     private final ServerLevel level;
     private final HashMap<Integer, DandelionSeed> seeds = new HashMap<>(256);
     private final HashMap<ChunkPos, HashSet<Integer>> chunkPosDandelionSeedMap = new HashMap<>(32);
 
     private boolean isFrozen = false;
 
-    public DandelionCancer(ServerLevel level) {
-        this.level = level;
+    public DandelionCancer(Level level) {
+        this.level = (ServerLevel)level;
     }
 
     public static ChunkPos getSeedChunkPos(DandelionSeed seed) {
@@ -105,9 +107,7 @@ public class DandelionCancer {
 
         chunkPosDandelionSeedMap.entrySet().removeIf(chunkPosHashSetEntry -> chunkPosHashSetEntry.getValue().isEmpty());
 
-        payloads.forEach((player, dandelionSeedStatePayloadBuilder) -> {
-            player.connection.send(dandelionSeedStatePayloadBuilder.build());
-        });
+        payloads.forEach((player, dandelionSeedStatePayloadBuilder) -> player.connection.send(dandelionSeedStatePayloadBuilder.build()));
     }
 
     public void setFrozen(boolean isFrozen) {

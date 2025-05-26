@@ -2,8 +2,8 @@ package io.tsukook.github.cozycafes.events;
 
 import com.mojang.brigadier.CommandDispatcher;
 import io.tsukook.github.cozycafes.CozyCafes;
+import io.tsukook.github.cozycafes.registers.PerLevelTickerManagerRegistry;
 import io.tsukook.github.cozycafes.systems.CzCCommand;
-import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancerManager;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
@@ -43,7 +43,7 @@ public class CzCGameEventBusSubscriber {
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel serverLevel)
-            DandelionCancerManager.createCancerForLevel(serverLevel);
+            PerLevelTickerManagerRegistry.MANAGERS.forEach(perLevelTickerManager -> perLevelTickerManager.registerLevel(serverLevel));
     }
 
     @SubscribeEvent
@@ -51,7 +51,7 @@ public class CzCGameEventBusSubscriber {
         if (event.getLevel() instanceof ServerLevel level) {
             if (!level.tickRateManager().runsNormally())
                 return;
-            DandelionCancerManager.tickCancer(level);
+            PerLevelTickerManagerRegistry.MANAGERS.forEach(perLevelTickerManager -> perLevelTickerManager.tickLevel(level));
         }
     }
 
