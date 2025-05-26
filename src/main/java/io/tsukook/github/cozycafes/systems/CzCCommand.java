@@ -1,6 +1,7 @@
 package io.tsukook.github.cozycafes.systems;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -110,6 +111,37 @@ public class CzCCommand {
                                                         })
                                         )
                                 )
+                        .then(
+                                Commands.literal("wind")
+                                        .then(
+                                                Commands.literal("get")
+                                                        .executes(context -> {
+                                                            context.getSource().sendSystemMessage(Component.literal("Wind direction is " + PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).getWindForce()));
+                                                            return 1;
+                                                        })
+                                        ).then(
+                                                Commands.literal("power")
+                                                        .then(
+                                                                Commands.literal("get")
+                                                                        .executes(context -> {
+                                                                            double power = PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).windPower;
+                                                                            context.getSource().sendSystemMessage(Component.literal("Wind power is " + power));
+                                                                            return (int)power;
+                                                                        })
+                                                        ).then(
+                                                                Commands.literal("set")
+                                                                        .then(
+                                                                                Commands.argument("power", DoubleArgumentType.doubleArg())
+                                                                                        .executes(context -> {
+                                                                                            double power = DoubleArgumentType.getDouble(context, "power");
+                                                                                            PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).windPower = power;
+                                                                                            context.getSource().sendSystemMessage(Component.literal("Set wind power to " + power));
+                                                                                            return 1;
+                                                                                        })
+                                                                        )
+                                                        )
+                                        )
+                        )
         );
     }
 
