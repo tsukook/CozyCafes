@@ -60,7 +60,7 @@ public class DandelionSeedRenderer {
 
     public static void render(VertexConsumer buffer, Camera camera, float partialTicks) {
         long targetTime = System.currentTimeMillis() - DELAY_MILLIS;
-        float alpha = -1;
+        float alpha = 1;
         DandelionState prev = null;
         DandelionState next = null;
         for (int i = 0; i < stateBuffer.size() - 1; i++) {
