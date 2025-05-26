@@ -1,10 +1,16 @@
 package io.tsukook.github.cozycafes.systems.dandelion;
 
-import io.tsukook.github.cozycafes.networking.DandelionSeedStatePayload;
 import io.tsukook.github.cozycafes.networking.DandelionSeedStatePayloadBuilder;
+import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector2i;
 
@@ -13,8 +19,8 @@ import java.util.*;
 // FIXME: Name is a placeholder
 public class DandelionCancer {
     private final ServerLevel level;
-    private final ArrayList<DandelionSeed> seeds = new ArrayList<>(256);
-    private final HashMap<ChunkPos, ArrayList<DandelionSeed>> chunkPosDandelionSeedMap = new HashMap<>(32);
+    private final HashMap<Integer, DandelionSeed> seeds = new HashMap<>(256);
+    private final HashMap<ChunkPos, HashSet<Integer>> chunkPosDandelionSeedMap = new HashMap<>(32);
 
     private boolean isFrozen = false;
 
@@ -28,8 +34,12 @@ public class DandelionCancer {
         return new ChunkPos(chunk.x, chunk.y);
     }
 
+    public static BlockPos getSeedBlockPos(DandelionSeed seed) {
+        return new BlockPos((int)seed.pos.x, (int)seed.pos.y, (int)seed.pos.z);
+    }
+
     public void addSeed(DandelionSeed seed) {
-        seeds.add(seed);
+        seeds.put(seed.getId(), seed);
     }
     public int clearSeeds() {
         int count = seeds.size();
@@ -46,33 +56,54 @@ public class DandelionCancer {
     private void addToChunkPosDandelionSeedMap(DandelionSeed seed) {
         ChunkPos pos = getSeedChunkPos(seed);
         if (!chunkPosDandelionSeedMap.containsKey(pos)) {
-            chunkPosDandelionSeedMap.put(pos, new ArrayList<>());
+            chunkPosDandelionSeedMap.put(pos, new HashSet<>());
         }
-        chunkPosDandelionSeedMap.get(pos).add(seed);
+        chunkPosDandelionSeedMap.get(pos).add(seed.getId());
     }
 
     public void tick(boolean bypassFrozen) {
-        seeds.forEach(seed -> {
+        ArrayList<Integer> removeQueue = new ArrayList<>();
+        seeds.forEach((id, seed) -> {
             ChunkPos chunkPos = getSeedChunkPos(seed);
             if (level.hasChunk(chunkPos.x, chunkPos.z)) {
                 if (!isFrozen || bypassFrozen) {
+                    if (chunkPosDandelionSeedMap.containsKey(chunkPos)) {
+                        chunkPosDandelionSeedMap.get(chunkPos).remove(id);
+                    }
+
+                    Vec3 prevSeedPos = new Vec3(seed.pos);
                     DandelionPhysics.tickSeed(seed);
-                    addToChunkPosDandelionSeedMap(seed);
+                    BlockHitResult result = level.clip(new ClipContext(prevSeedPos, new Vec3(seed.pos), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
+                    if (result.getType() != HitResult.Type.MISS) {
+                        removeQueue.add(id);
+                        BlockPos blockPos = result.getBlockPos().above();
+                        if (level.getBlockState(blockPos).isAir())
+                            level.setBlockAndUpdate(blockPos, CzCBlockRegistry.DANDELION.get().defaultBlockState());
+                    } else {
+                        addToChunkPosDandelionSeedMap(seed);
+                    }
                 }
             }
         });
+
+        removeQueue.forEach(seeds::remove);
+        removeQueue.clear();
 
         HashMap<ServerPlayer, DandelionSeedStatePayloadBuilder> payloads = new HashMap<>();
 
         chunkPosDandelionSeedMap.forEach((chunkPos, dandelionSeeds) -> {
             for (ServerPlayer player : level.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
                 if (!payloads.containsKey(player)) {
-                    payloads.put(player, new DandelionSeedStatePayloadBuilder().addSeeds(dandelionSeeds));
+                    DandelionSeedStatePayloadBuilder builder = new DandelionSeedStatePayloadBuilder();
+                    dandelionSeeds.forEach(id -> builder.addSeed(seeds.get(id)));
+                    payloads.put(player, builder);
                 } else {
-                    payloads.get(player).addSeeds(dandelionSeeds);
+                    dandelionSeeds.forEach(id -> payloads.get(player).addSeed(seeds.get(id)));
                 }
             }
         });
+
+        chunkPosDandelionSeedMap.entrySet().removeIf(chunkPosHashSetEntry -> chunkPosHashSetEntry.getValue().isEmpty());
 
         payloads.forEach((player, dandelionSeedStatePayloadBuilder) -> {
             player.connection.send(dandelionSeedStatePayloadBuilder.build());
