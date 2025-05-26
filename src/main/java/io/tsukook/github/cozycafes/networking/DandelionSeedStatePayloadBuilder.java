@@ -6,13 +6,18 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class DandelionSeedStatePayloadBuilder {
-    private HashMap<Integer, DandelionSeed> seeds = new HashMap<>();
+    private final HashMap<Integer, DandelionSeed> seeds = new HashMap<>();
     private long timestamp = 0;
 
     public DandelionSeedStatePayloadBuilder addSeeds(Collection<DandelionSeed> seeds) {
         seeds.forEach(seed -> {
             this.seeds.put(seed.getId(), seed);
         });
+        return this;
+    }
+
+    public DandelionSeedStatePayloadBuilder addSeed(DandelionSeed seed) {
+        this.seeds.put(seed.getId(), seed);
         return this;
     }
 
