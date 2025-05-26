@@ -1,5 +1,6 @@
 package io.tsukook.github.cozycafes.systems.dandelion;
 
+import org.joml.Vector2d;
 import org.joml.Vector3f;
 
 public class DandelionPhysics {
@@ -7,7 +8,11 @@ public class DandelionPhysics {
     private static final float DRAG = .95f;
     private static final float DELTA = 1/20f;
 
-    public static DandelionSeed tickSeed(DandelionSeed original) {
+    public static DandelionSeed tickSeed(DandelionCancer cancer, DandelionSeed original) {
+        Vector2d windDirection = cancer.getWindForce();
+        original.velocity.x += (float) windDirection.x;
+        original.velocity.z += (float) windDirection.y;
+
         Vector3f acceleration = new Vector3f(-DRAG * original.velocity.x, GRAVITY - DRAG * original.velocity.y, -DRAG * original.velocity.z);
         original.velocity.add(acceleration.mul(DELTA));
         original.pos.add(original.velocity.mul(DELTA, new Vector3f()));

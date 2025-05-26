@@ -2,7 +2,9 @@ package io.tsukook.github.cozycafes.systems.dandelion;
 
 import io.tsukook.github.cozycafes.networking.DandelionSeedStatePayloadBuilder;
 import io.tsukook.github.cozycafes.registers.CzCBlockRegistry;
+import io.tsukook.github.cozycafes.registers.PerLevelTickerManagerRegistry;
 import io.tsukook.github.cozycafes.systems.PerLevelTicker;
+import io.tsukook.github.cozycafes.systems.wind.Wind;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +16,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.joml.Vector2d;
 import org.joml.Vector2i;
 
 import java.util.*;
@@ -23,11 +26,13 @@ public class DandelionCancer implements PerLevelTicker {
     private final ServerLevel level;
     private final HashMap<Integer, DandelionSeed> seeds = new HashMap<>(256);
     private final HashMap<ChunkPos, HashSet<Integer>> chunkPosDandelionSeedMap = new HashMap<>(32);
+    private final Wind wind;
 
     private boolean isFrozen = false;
 
     public DandelionCancer(Level level) {
         this.level = (ServerLevel)level;
+        this.wind = PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(level);
     }
 
     public static ChunkPos getSeedChunkPos(DandelionSeed seed) {
@@ -47,6 +52,7 @@ public class DandelionCancer implements PerLevelTicker {
         return count;
     }
 
+    @Override
     public void tick() {
         tick(false);
     }
@@ -70,7 +76,7 @@ public class DandelionCancer implements PerLevelTicker {
                     }
 
                     Vec3 prevSeedPos = new Vec3(seed.pos);
-                    DandelionPhysics.tickSeed(seed);
+                    DandelionPhysics.tickSeed(this, seed);
                     BlockHitResult result = level.clip(new ClipContext(prevSeedPos, new Vec3(seed.pos), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
                     if (result.getType() != HitResult.Type.MISS) {
                         removeQueue.add(id);
@@ -116,5 +122,9 @@ public class DandelionCancer implements PerLevelTicker {
 
     public boolean getIsFrozen() {
         return isFrozen;
+    }
+
+    public Vector2d getWindForce() {
+        return wind.getWindForce();
     }
 }
