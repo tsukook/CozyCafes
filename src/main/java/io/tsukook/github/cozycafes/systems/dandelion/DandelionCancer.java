@@ -36,10 +36,6 @@ public class DandelionCancer implements PerLevelTicker {
         return new ChunkPos(chunk.x, chunk.y);
     }
 
-    public static BlockPos getSeedBlockPos(DandelionSeed seed) {
-        return new BlockPos((int)seed.pos.x, (int)seed.pos.y, (int)seed.pos.z);
-    }
-
     public void addSeed(DandelionSeed seed) {
         seeds.put(seed.getId(), seed);
     }
@@ -79,7 +75,7 @@ public class DandelionCancer implements PerLevelTicker {
                     if (result.getType() != HitResult.Type.MISS) {
                         removeQueue.add(id);
                         BlockPos blockPos = result.getBlockPos().above();
-                        if (level.getBlockState(blockPos).isAir())
+                        if (level.getBlockState(blockPos).isAir() && level.random.nextInt(5) == 0)
                             level.setBlockAndUpdate(blockPos, CzCBlockRegistry.DANDELION.get().defaultBlockState());
                     } else {
                         addToChunkPosDandelionSeedMap(seed);
