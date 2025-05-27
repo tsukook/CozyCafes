@@ -15,6 +15,7 @@ public class DandelionSeedRenderer {
     // Render latest in like red or smth
     private static final ArrayList<DandelionState> stateBuffer = new ArrayList<>(5);
     private static final long DELAY_MILLIS = 100;
+    private static final float seedSize = 0.5f;
 
     private static void renderVertex(VertexConsumer buffer, Quaternionf quaternionf, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
         renderVertex(buffer, quaternionf, x, y, z, xOffset, yOffset, quadSize, u, v, packedLight, 0xffffffff);
@@ -52,10 +53,10 @@ public class DandelionSeedRenderer {
         u1 = 1;
         v1 = 1;
 
-        renderVertex(buffer, quaternionf, x, y, z, 1.0f, -1.0f, 1.0f, u1, v1, packedLight, color);
-        renderVertex(buffer, quaternionf, x, y, z, 1.0f, 1.0f, 1.0f, u1, v0, packedLight, color);
-        renderVertex(buffer, quaternionf, x, y, z, -1.0f, 1.0f, 1.0f, u0, v0, packedLight, color);
-        renderVertex(buffer, quaternionf, x, y, z, -1.0f, -1.0f, 1.0f, u0, v1, packedLight, color);
+        renderVertex(buffer, quaternionf, x, y, z, 1.0f, -1.0f, seedSize, u1, v1, packedLight, color);
+        renderVertex(buffer, quaternionf, x, y, z, 1.0f, 1.0f, seedSize, u1, v0, packedLight, color);
+        renderVertex(buffer, quaternionf, x, y, z, -1.0f, 1.0f, seedSize, u0, v0, packedLight, color);
+        renderVertex(buffer, quaternionf, x, y, z, -1.0f, -1.0f, seedSize, u0, v1, packedLight, color);
     }
 
     public static void render(VertexConsumer buffer, Camera camera, float partialTicks) {
