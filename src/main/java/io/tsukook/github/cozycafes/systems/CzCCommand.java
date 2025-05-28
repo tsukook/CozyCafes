@@ -135,7 +135,27 @@ public class CzCCommand {
                                                                                         .executes(context -> {
                                                                                             double power = DoubleArgumentType.getDouble(context, "power");
                                                                                             PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).windPower = power;
-                                                                                            context.getSource().sendSystemMessage(Component.literal("Set wind power to " + power));
+                                                                                            context.getSource().sendSuccess(() -> Component.literal("Set wind power to " + power), true);
+                                                                                            return 1;
+                                                                                        })
+                                                                        )
+                                                        )
+                                        ).then(
+                                                Commands.literal("rateOfChange")
+                                                        .then(
+                                                                Commands.literal("get")
+                                                                        .executes(context -> {
+                                                                            context.getSource().sendSystemMessage(Component.literal("Wind rate of change is " + PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).changeSpeed));
+                                                                            return 1;
+                                                                        })
+                                                        ).then(
+                                                                Commands.literal("set")
+                                                                        .then(
+                                                                                Commands.argument("changePerTick", DoubleArgumentType.doubleArg(0))
+                                                                                        .executes(context -> {
+                                                                                            double rateOfChange = DoubleArgumentType.getDouble(context, "changePerTick");
+                                                                                            PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).changeSpeed = rateOfChange;
+                                                                                            context.getSource().sendSystemMessage(Component.literal("Set rate of change to " + rateOfChange));
                                                                                             return 1;
                                                                                         })
                                                                         )
