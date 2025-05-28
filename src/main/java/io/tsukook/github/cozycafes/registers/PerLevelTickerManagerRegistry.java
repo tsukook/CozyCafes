@@ -3,6 +3,7 @@ package io.tsukook.github.cozycafes.registers;
 import io.tsukook.github.cozycafes.systems.PerLevelTicker;
 import io.tsukook.github.cozycafes.systems.PerLevelTickerManager;
 import io.tsukook.github.cozycafes.systems.dandelion.DandelionCancer;
+import io.tsukook.github.cozycafes.systems.leveltickscheduler.LevelTickScheduler;
 import io.tsukook.github.cozycafes.systems.wind.Wind;
 import net.minecraft.world.level.Level;
 
@@ -13,6 +14,7 @@ public class PerLevelTickerManagerRegistry {
     public static final ArrayList<PerLevelTickerManager<?>> MANAGERS = new ArrayList<>();
 
     // Order is important
+    public static final PerLevelTickerManager<LevelTickScheduler> LEVEL_TICK_SCHEDULER_MANAGER = register(LevelTickScheduler::new);
     public static final PerLevelTickerManager<Wind> WIND_MANAGER = register(Wind::new);
     public static final PerLevelTickerManager<DandelionCancer> DANDELION_CANCER_MANAGER = register(DandelionCancer::new);
 
