@@ -8,8 +8,8 @@ public class Wind implements PerLevelTicker {
     private final Vector2d windDirection = new Vector2d();
     private double x = 0;
     private double y = 0;
-    private double changeSpeed = 0.1 / 20;
-    public double windPower = 5;
+    public double changeSpeed = 0.001;
+    public double windPower = 2;
 
     private static double fade(double t) {
         return 6 * Math.pow(t, 5) - 15 * Math.pow(t, 4) + 10 * Math.pow(t, 3);
