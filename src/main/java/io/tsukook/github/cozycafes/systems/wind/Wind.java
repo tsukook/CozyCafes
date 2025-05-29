@@ -9,7 +9,7 @@ public class Wind implements PerLevelTicker {
     private double x = 0;
     private double y = 0;
     public double changeSpeed = 0.001;
-    public double windPower = 2;
+    public double windPower = 0.5;
 
     private static double fade(double t) {
         return 6 * Math.pow(t, 5) - 15 * Math.pow(t, 4) + 10 * Math.pow(t, 3);
