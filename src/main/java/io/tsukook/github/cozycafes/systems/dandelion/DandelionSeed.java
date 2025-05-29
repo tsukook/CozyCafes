@@ -8,9 +8,10 @@ public class DandelionSeed {
     public Vector3f pos;
     public Vector3f velocity;
 
-    public DandelionSeed(DandelionSeed original) {
-        this(original.getId(), new Vector3f(original.pos), new Vector3f(original.velocity));
-    }
+    // Stinky!
+    public Vector3f jerk = new Vector3f();
+    public Vector3f boost = new Vector3f(0, 0.375f, 0);
+    public int boostTicks;
 
     public DandelionSeed() {
         this(new Vector3f(), new Vector3f());
@@ -26,8 +27,8 @@ public class DandelionSeed {
 
     public DandelionSeed(int id, Vector3f pos, Vector3f velocity) {
         this.id = id;
-        this.pos = pos;
-        this.velocity = velocity;
+        this.pos = new Vector3f(pos);
+        this.velocity = new Vector3f(velocity);
     }
 
     public int getId() {
