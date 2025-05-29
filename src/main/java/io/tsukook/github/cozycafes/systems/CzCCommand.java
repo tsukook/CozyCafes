@@ -13,7 +13,10 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector2d;
 import org.joml.Vector3f;
+
+import java.text.NumberFormat;
 
 public class CzCCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -116,7 +119,8 @@ public class CzCCommand {
                                         .then(
                                                 Commands.literal("get")
                                                         .executes(context -> {
-                                                            context.getSource().sendSystemMessage(Component.literal("Wind direction is " + PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).getWindForce()));
+                                                            Vector2d windForce = PerLevelTickerManagerRegistry.WIND_MANAGER.getTicker(context.getSource().getLevel()).getWindForce();
+                                                            context.getSource().sendSystemMessage(Component.literal("Wind direction is " + windForce.toString(NumberFormat.getNumberInstance()) + " magnitude " + windForce.length()));
                                                             return 1;
                                                         })
                                         ).then(
