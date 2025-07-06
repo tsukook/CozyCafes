@@ -1,7 +1,59 @@
 {
-  "parent": "minecraft:block/cross",
-  "render_type": "cutout",
-  "textures": {
-    "cross": "minecraft:block/dandelion"
-  }
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "cutout",
+	"textures": {
+		"particle": "minecraft:block/dandelion",
+		"cross": "minecraft:block/dandelion"
+	},
+	"elements": [
+		{
+			"from": [0.8, 0, 8],
+			"to": [15.2, 16, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#cross"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#cross"}
+			}
+		},
+		{
+			"from": [8, 0, 0.8],
+			"to": [8, 16, 15.2],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#cross"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#cross"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 7.5, 1.25]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 7.5, 1.25]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 6.5, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 6.5, 0]
+		},
+		"ground": {
+			"translation": [0, 4.25, 0]
+		},
+		"gui": {
+			"translation": [0, 24, 0],
+			"scale": [4, 4, 1]
+		},
+		"head": {
+			"rotation": [-90, 0, 0],
+			"translation": [0, -4.25, -14.5]
+		},
+		"fixed": {
+			"translation": [0, 3, 0]
+		}
+	}
 }
