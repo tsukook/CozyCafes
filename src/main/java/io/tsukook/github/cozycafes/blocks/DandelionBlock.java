@@ -77,16 +77,17 @@ public class DandelionBlock extends Block implements BonemealableBlock {
         Vector3f center = new Vector3f(pos.getX(), pos.getY(), pos.getZ()).add(0.5f, 0.5f, 0.5f);
         for (int i = 0; i < 8; i++) {
             float horizontalRandom = 1;
-            float verticalRandom = 15;
+            float minVerticalRandom = 0.5f;
+            float maxVerticalRandom = 1.5f;
             scheduler.schedule(i * 4, serverLevel -> {
                 DandelionSeed seed = new DandelionSeed(center,
                         new Vector3f(
                                 Mth.nextFloat(random, -horizontalRandom, horizontalRandom),
-                                Mth.nextFloat(random, 0, verticalRandom),
+                                Mth.nextFloat(random, minVerticalRandom, maxVerticalRandom),
                                 Mth.nextFloat(random, -horizontalRandom, horizontalRandom)
                         )
                 );
-                seed.boostTicks = Mth.nextInt(random, 10, 60);
+                seed.boostTicks = Mth.nextInt(random, 15, 50);
                 cancer.addSeed(seed);
             });
             //level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 10, 1);

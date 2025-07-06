@@ -10,7 +10,7 @@ public class DandelionSeed {
 
     // Stinky!
     public Vector3f jerk = new Vector3f();
-    public Vector3f boost = new Vector3f(0, 0.375f, 0);
+    public Vector3f boost = new Vector3f(0, 0.1f, 0);
     public int boostTicks;
 
     public DandelionSeed() {
