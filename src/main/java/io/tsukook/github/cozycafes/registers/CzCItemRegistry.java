@@ -1,6 +1,7 @@
 package io.tsukook.github.cozycafes.registers;
 
 import io.tsukook.github.cozycafes.CozyCafes;
+import io.tsukook.github.cozycafes.items.DandelionBlockItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -12,7 +13,9 @@ public class CzCItemRegistry {
 
     public static final DeferredItem<BlockItem> COFFEE_PLANT = ITEMS.registerSimpleBlockItem(CzCBlockRegistry.COFFEE_PLANT);
     public static final DeferredItem<BlockItem> COFFEE_PULPER = ITEMS.registerSimpleBlockItem(CzCBlockRegistry.COFFEE_PULPER);
-    public static final DeferredItem<BlockItem> DANDELION = ITEMS.registerSimpleBlockItem(CzCBlockRegistry.DANDELION);
+    public static final DeferredItem<DandelionBlockItem> DANDELION = ITEMS.registerItem("dandelion", properties -> new DandelionBlockItem(CzCBlockRegistry.DANDELION.get(), properties
+            .useBlockDescriptionPrefix()
+    ));
     public static final DeferredItem<Item> COFFEE_BERRY = ITEMS.registerSimpleItem("coffee_berry", new Item.Properties());
     public static final DeferredItem<Item> PULPED_COFFEE_BEAN = ITEMS.registerSimpleItem("pulped_coffee_bean");
     public static final DeferredItem<Item> FERMENTED_COFFEE_BEAN = ITEMS.registerSimpleItem("fermented_coffee_bean");

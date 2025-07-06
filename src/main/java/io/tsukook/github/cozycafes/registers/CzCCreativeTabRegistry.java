@@ -20,6 +20,9 @@ public class CzCCreativeTabRegistry {
                 output.accept(CzCItemRegistry.COFFEE_PLANT.get());
                 output.accept(CzCItemRegistry.COFFEE_PULPER.get());
                 output.accept(CzCItemRegistry.COFFEE_BERRY.get());
+                output.accept(CzCItemRegistry.PULPED_COFFEE_BEAN.get());
+                output.accept(CzCItemRegistry.FERMENTED_COFFEE_BEAN.get());
+                output.accept(CzCItemRegistry.DANDELION.get());
             }).build());
 
     public static void register(IEventBus modEventBus) {
